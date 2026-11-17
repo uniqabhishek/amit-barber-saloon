@@ -549,6 +549,21 @@ function updateBookingSummary() {
   if (durationEl) durationEl.textContent = `${totalMin} min`;
   if (payModalTotal) payModalTotal.textContent = `₹${total}`;
 
+  // Update Mobile App Floating Cart Pill
+  const mobilePill = document.getElementById("mobile-floating-cart-pill");
+  const mobilePillCount = document.getElementById("mobile-pill-count");
+  const mobilePillPrice = document.getElementById("mobile-pill-price");
+
+  if (mobilePill) {
+    if (bookingState.selectedServices.length > 0) {
+      mobilePill.classList.remove("hidden");
+      if (mobilePillCount) mobilePillCount.textContent = `${bookingState.selectedServices.length} Selected`;
+      if (mobilePillPrice) mobilePillPrice.innerHTML = `Total: <b class="text-white text-xs font-serif-vintage">₹${total}</b> (${totalMin} min)`;
+    } else {
+      mobilePill.classList.add("hidden");
+    }
+  }
+
   updateAppointmentPreview();
 }
 

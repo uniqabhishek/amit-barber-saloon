@@ -17,7 +17,8 @@ const MIME_TYPES = {
   '.jpeg': 'image/jpeg',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
-  '.webp': 'image/webp'
+  '.webp': 'image/webp',
+  '.apk': 'application/vnd.android.package-archive'
 };
 
 function getLocalIp() {

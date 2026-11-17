@@ -141,6 +141,76 @@ body {
   background: #d4af37;
 }
 
+/* Mobile App View Optimizations */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  padding-bottom: 76px; /* Room for mobile app bottom bar */
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-bottom: 0px;
+  }
+}
+
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(18, 12, 9, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid #3b281d;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.7);
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #a8a29e;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.mobile-nav-item:active,
+.mobile-nav-item.active {
+  color: #f59e0b;
+  transform: scale(1.08);
+}
+
+.mobile-nav-item span.icon {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+/* Floating Mobile Booking Drawer Pill */
+.mobile-floating-pill {
+  position: fixed;
+  bottom: 72px;
+  left: 12px;
+  right: 12px;
+  z-index: 45;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+@media (min-width: 768px) {
+  .mobile-bottom-nav,
+  .mobile-floating-pill {
+    display: none !important;
+  }
+}
+
 /* Print Styles for Appointment Slips */
 @media print {
   body * {

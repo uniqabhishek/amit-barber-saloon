@@ -1,0 +1,68 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Java 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+
+    - name: Build Android APK
+      run: |
+        cd android
+        chmod +x gradlew || true
+        gradle assembleDebug --stacktrace
+
+    - name: Copy and Rename APK
+      run: |
+        mkdir -p release-apk
+        find android/app/build/outputs/apk -name "*.apk" -exec cp {} release-apk/AmitBarberShop-v1.0.0.apk \;
+        ls -la release-apk/
+
+    - name: Upload APK as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: AmitBarberShop-APK
+        path: release-apk/AmitBarberShop-v1.0.0.apk
+
+    - name: Create GitHub Release with APK Download
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/heads/main')
+      with:
+        tag_name: v1.0.0
+        name: "Amit Barber Shop Android App v1.0.0"
+        body: |
+          ### 💈 Amit's Barber Shop & Salon Official Android App (APK)
+
+          Download the official Android APK to install directly on any Android smartphone.
+
+          #### ✨ App Features:
+          - Fast, native mobile app interface
+          - 35+ Local salon services (Haircut, Beard smoothing, Keratin/Caretin, Facials, Champi)
+          - Real-time time slot booking with zero overlap protection
+          - Instant UPI payment via Google Pay, PhonePe, Paytm, or BHIM
+          - Customer reviews & rating system
+
+          #### 📥 Direct Download:
+          Download **AmitBarberShop-v1.0.0.apk** below and tap to install on your Android device!
+        files: release-apk/AmitBarberShop-v1.0.0.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

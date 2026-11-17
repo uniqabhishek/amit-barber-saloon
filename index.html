@@ -2,8 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Amit's Vintage Barber Shop | Hair Cutting, Beard Smoothing & Keratin Spa</title>
+  
+  <!-- PWA & Mobile App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#120c09">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Amit Barber">
+  <link rel="apple-touch-icon" href="assets/icon.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
   
   <!-- Tailwind CSS via allowed CDN -->
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
@@ -147,12 +157,22 @@
           </div>
 
           <div class="flex flex-wrap items-center gap-3 pt-2">
-            <a href="#booking-section" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 text-stone-950 font-bold text-xs sm:text-sm shadow-xl shadow-amber-600/30 hover:scale-105 transition flex items-center gap-2">
+            <a href="#booking-section" class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 text-stone-950 font-bold text-xs sm:text-sm shadow-xl shadow-amber-600/30 hover:scale-105 transition flex items-center gap-2">
               <span>📅 View Free Slots & Book</span> &rarr;
             </a>
 
-            <button onclick="openCustomServiceModal()" class="px-5 py-3 rounded-xl bg-[#251b14] hover:bg-[#30231a] text-amber-200 border border-[#422d21] text-xs font-semibold flex items-center gap-2">
-              <span>➕ Request Custom Haircut</span>
+            <!-- Android APK Download Button -->
+            <a href="https://github.com/uniqabhishek/amit-barber-saloon/releases/download/v1.0.0/AmitBarberShop-v1.0.0.apk" class="px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm shadow-xl shadow-emerald-600/30 transition flex items-center gap-2">
+              <span>🤖 Download Android APK</span>
+            </a>
+
+            <!-- PWA 1-Click Install Button -->
+            <button id="btn-pwa-install" onclick="installPwaApp()" class="hidden px-4 py-3 rounded-xl bg-[#251b14] hover:bg-[#322319] text-amber-300 font-bold text-xs border border-amber-600/50 flex items-center gap-2 transition">
+              <span>📲 Install App (PWA)</span>
+            </button>
+
+            <button onclick="openCustomServiceModal()" class="px-4 py-3 rounded-xl bg-[#251b14] hover:bg-[#30231a] text-amber-200 border border-[#422d21] text-xs font-semibold flex items-center gap-2">
+              <span>➕ Custom Haircut</span>
             </button>
           </div>
         </div>
@@ -1023,6 +1043,45 @@
     </div>
   </div>
 
+  <!-- ========================================================================= -->
+  <!-- MOBILE BOTTOM APP NAVIGATION BAR (Native Mobile App Feel) -->
+  <!-- ========================================================================= -->
+  <nav class="mobile-bottom-nav grid grid-cols-5 text-center">
+    <a href="#" class="mobile-nav-item active">
+      <span class="icon">💈</span>
+      <span>Home</span>
+    </a>
+    <a href="#services" class="mobile-nav-item">
+      <span class="icon">✂️</span>
+      <span>Services</span>
+    </a>
+    <a href="#booking-section" class="mobile-nav-item">
+      <span class="icon">📅</span>
+      <span>Book Slot</span>
+    </a>
+    <a href="#upi-qr-section" class="mobile-nav-item">
+      <span class="icon">💳</span>
+      <span>Pay UPI</span>
+    </a>
+    <a href="#reviews-section" class="mobile-nav-item">
+      <span class="icon">⭐</span>
+      <span>Reviews</span>
+    </a>
+  </nav>
+
+  <!-- FLOATING MOBILE STICKY BOOKING DRAWER (Shows when services selected) -->
+  <div id="mobile-floating-cart-pill" class="mobile-floating-pill hidden">
+    <div class="bg-gradient-to-r from-stone-900 via-[#261910] to-stone-900 border-2 border-amber-500 rounded-2xl p-3 flex items-center justify-between text-xs shadow-2xl backdrop-blur-md">
+      <div>
+        <span id="mobile-pill-count" class="font-bold text-amber-300 text-sm block leading-tight">2 Services</span>
+        <span id="mobile-pill-price" class="text-stone-300 text-[11px]">Total: <b class="text-white text-xs font-serif-vintage">₹270</b></span>
+      </div>
+      <a href="#booking-section" class="px-4 py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 text-stone-950 font-black rounded-xl text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-md">
+        <span>Book Slot & Arrival Time</span> &rarr;
+      </a>
+    </div>
+  </div>
+
   <!-- QR Code Generator Library -->
   <script src="js/qrcode.min.js"></script>
 
@@ -1032,14 +1091,46 @@
   <script src="js/payments.js"></script>
   <script src="js/app.js"></script>
 
-  <!-- Initialize Hero & Section QR Codes after load -->
+  <!-- Initialize Hero & Section QR Codes, Service Worker & PWA Install after load -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         paymentManager.renderQrCode("hero-qr-container", 0, "HERO");
         paymentManager.renderQrCode("section-qr-container", 0, "OPEN");
       }, 100);
+
+      // Register PWA Service Worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then((reg) => {
+          console.log("PWA Service Worker registered successfully!", reg.scope);
+        }).catch((err) => {
+          console.log("Service Worker registration skipped:", err);
+        });
+      }
     });
+
+    // PWA Install Prompt Handler
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const installBtn = document.getElementById('btn-pwa-install');
+      if (installBtn) installBtn.classList.remove('hidden');
+    });
+
+    function installPwaApp() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the PWA install prompt');
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("To install on your phone:\n1. Tap your browser menu (⋮ or Share icon)\n2. Tap 'Add to Home screen' / 'Install App'!");
+      }
+    }
   </script>
 
 </body>

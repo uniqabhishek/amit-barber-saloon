@@ -1,0 +1,20 @@
+{
+  "name": "Amit's Vintage Barber Shop & Grooming Lounge",
+  "short_name": "Amit Barber",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#120c09",
+  "theme_color": "#120c09",
+  "orientation": "portrait",
+  "scope": "./",
+  "description": "Hair Cutting, Beard Smoothing & Keratin Treatment Salon Booking App by Amit",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "business", "utilities"]
+}
