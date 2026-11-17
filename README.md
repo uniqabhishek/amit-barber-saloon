@@ -2,8 +2,10 @@
 
 A modern, responsive, and feature-packed web application for a local barber salon. Built with a rich Vintage Classic aesthetic, smart time slot overlap protection, customizable services and pricing, authentic UPI QR code payments, and live customer reviews.
 
-## 🌐 Live Online Demo
-- **GitHub Pages**: [https://uniqabhishek.github.io/amit-barber-saloon/](https://uniqabhishek.github.io/amit-barber-saloon/)
+## 🌐 Live Online Demo & Mobile App
+- **Live Web App (GitHub Pages)**: [https://uniqabhishek.github.io/amit-barber-saloon/](https://uniqabhishek.github.io/amit-barber-saloon/)
+- **Android APK Direct Download**: [AmitBarberShop-v1.0.0.apk (v1.0.0)](https://github.com/uniqabhishek/amit-barber-saloon/releases/download/v1.0.0/AmitBarberShop-v1.0.0.apk)
+- **GitHub Release Page**: [v1.0.0 Release](https://github.com/uniqabhishek/amit-barber-saloon/releases/tag/v1.0.0)
 - **Repository**: [https://github.com/uniqabhishek/amit-barber-saloon](https://github.com/uniqabhishek/amit-barber-saloon)
 
 ---
