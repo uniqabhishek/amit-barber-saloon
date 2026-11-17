@@ -56,8 +56,8 @@
             📞 8930440260
           </a>
         </div>
-        <button onclick="openStaffBookingsModal()" class="text-[11px] bg-red-950 text-red-200 border border-red-700/60 hover:bg-red-900 px-2.5 py-1 rounded-full font-bold transition flex items-center gap-1">
-          <span>📋 Today's Appointments</span>
+        <button onclick="switchPortal('owner')" class="text-[11px] bg-red-950 text-red-200 border border-red-700/60 hover:bg-red-900 px-3 py-1 rounded-full font-bold transition flex items-center gap-1.5 shadow">
+          <span>👑 Owner Portal</span>
           <span id="staff-bookings-count" class="bg-red-600 text-white px-1.5 py-0.2 rounded-full text-[10px]">0</span>
         </button>
       </div>
@@ -95,18 +95,38 @@
         <a href="#developer-section" class="hover:text-amber-400 transition text-amber-300">Developer Amit</a>
       </div>
 
-      <!-- Action Buttons -->
+      <!-- Action Buttons & Portal Switcher -->
       <div class="flex items-center gap-2">
-        <button onclick="openCustomServiceModal()" class="hidden sm:flex text-xs px-3 py-2 rounded-xl bg-[#2b1f18] border border-amber-600/40 text-amber-300 hover:bg-amber-600 hover:text-stone-950 font-bold items-center gap-1.5 transition">
-          <span>➕ Custom Haircut</span>
+        <!-- Portal Mode Switcher (Customer vs Owner) -->
+        <div class="flex items-center p-0.5 bg-[#140e0a] rounded-xl border border-amber-600/30">
+          <button id="btn-portal-customer" onclick="switchPortal('customer')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 portal-switch-active">
+            <span>👤 Customer</span>
+          </button>
+          <button id="btn-portal-owner" onclick="switchPortal('owner')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 portal-switch-inactive">
+            <span>👑 Owner</span>
+          </button>
+        </div>
+
+        <!-- Customer Booking Tracker Button -->
+        <button onclick="openCustomerLookupModal()" class="hidden sm:flex text-xs px-3 py-2 rounded-xl bg-[#251b14] border border-[#422d21] hover:border-amber-500/50 text-amber-300 font-bold items-center gap-1.5 transition">
+          <span>🔍 Track Booking</span>
         </button>
-        <a href="#booking-section" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-stone-950 font-bold text-xs md:text-sm shadow-lg shadow-amber-600/25 transition-all duration-200 hover:scale-105 flex items-center gap-1.5">
+
+        <button onclick="openCustomServiceModal()" class="hidden md:flex text-xs px-3 py-2 rounded-xl bg-[#2b1f18] border border-amber-600/40 text-amber-300 hover:bg-amber-600 hover:text-stone-950 font-bold items-center gap-1.5 transition">
+          <span>➕ Custom Cut</span>
+        </button>
+        <a href="#booking-section" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-stone-950 font-bold text-xs md:text-sm shadow-lg shadow-amber-600/25 transition-all duration-200 hover:scale-105 flex items-center gap-1.5">
           <span>📅 Book Chair</span>
         </a>
       </div>
 
     </div>
   </nav>
+
+  <!-- ========================================================================= -->
+  <!-- CUSTOMER PORTAL VIEW -->
+  <!-- ========================================================================= -->
+  <div id="customer-portal-view">
 
   <!-- ========================================================================= -->
   <!-- HERO BANNER SECTION -->
@@ -836,6 +856,254 @@
       <p>Designed and Built by <b class="text-amber-400">Amit</b> (8930440260)</p>
     </div>
   </footer>
+  </div>
+  <!-- ========================================================================= -->
+  <!-- END CUSTOMER PORTAL VIEW -->
+  <!-- ========================================================================= -->
+
+  <!-- ========================================================================= -->
+  <!-- OWNER / ADMIN PORTAL VIEW (For Amit: 8930440260) -->
+  <!-- ========================================================================= -->
+  <div id="owner-portal-view" class="hidden min-h-screen bg-[#100a07] pb-24">
+    <!-- Owner Header Strip -->
+    <div class="bg-gradient-to-r from-[#22160f] via-[#1a110b] to-[#22160f] border-b border-amber-600/40 px-4 py-6 shadow-xl">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-bold">
+            <span>👑 SALON OWNER & MASTER STYLIST CONSOLE</span>
+          </div>
+          <h1 class="font-serif-vintage text-2xl sm:text-3xl font-black text-amber-100 flex items-center gap-2">
+            Welcome, Amit Kumar Gazipuria
+          </h1>
+          <p class="text-xs text-stone-400">
+            Real-time appointment tracker, upcoming client schedules, UPI & Cash payment records, and slot blocker.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="openCustomServiceModal()" class="px-3.5 py-2 bg-[#251b14] hover:bg-[#322319] border border-amber-600/50 text-amber-300 text-xs font-bold rounded-xl flex items-center gap-1.5 transition">
+            <span>➕ Add New Haircut / Price</span>
+          </button>
+          <button onclick="switchPortal('customer')" class="px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow transition">
+            <span>👤 Switch to Customer Portal</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Owner Content Container -->
+    <div class="max-w-7xl mx-auto px-4 py-8 space-y-8" id="owner-overview">
+      
+      <!-- Metrics Row (5 Real-Time Cards) -->
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
+        
+        <!-- Card 1: Today's Appointments -->
+        <div class="owner-metric-card border-l-4 border-l-amber-500">
+          <div class="flex items-center justify-between text-xs text-stone-400 mb-1">
+            <span>Today's Bookings</span>
+            <span class="text-lg">💈</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-black text-white font-serif-vintage" id="owner-stat-today-count">
+            0
+          </div>
+          <span class="text-[10px] text-amber-400/90 font-medium">Scheduled for today</span>
+        </div>
+
+        <!-- Card 2: Total Appointments -->
+        <div class="owner-metric-card border-l-4 border-l-sky-500">
+          <div class="flex items-center justify-between text-xs text-stone-400 mb-1">
+            <span>Total Appointments</span>
+            <span class="text-lg">📅</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-black text-white font-serif-vintage" id="owner-stat-upcoming-count">
+            0
+          </div>
+          <span class="text-[10px] text-sky-400/90 font-medium">All active bookings</span>
+        </div>
+
+        <!-- Card 3: Total Revenue -->
+        <div class="owner-metric-card border-l-4 border-l-yellow-400">
+          <div class="flex items-center justify-between text-xs text-stone-400 mb-1">
+            <span>Total Revenue</span>
+            <span class="text-lg">💰</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-black text-yellow-300 font-serif-vintage" id="owner-stat-total-revenue">
+            ₹0
+          </div>
+          <span class="text-[10px] text-stone-400">Online + Cash combined</span>
+        </div>
+
+        <!-- Card 4: Online UPI Paid -->
+        <div class="owner-metric-card border-l-4 border-l-emerald-500">
+          <div class="flex items-center justify-between text-xs text-stone-400 mb-1">
+            <span>Online UPI Paid</span>
+            <span class="text-lg">✅</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-black text-emerald-400 font-serif-vintage" id="owner-stat-online-paid">
+            ₹0
+          </div>
+          <span class="text-[10px] text-emerald-400/80 truncate block">amitkumargazipuria@oksbi</span>
+        </div>
+
+        <!-- Card 5: Cash / Pending at Counter -->
+        <div class="owner-metric-card border-l-4 border-l-rose-500 col-span-2 lg:col-span-1">
+          <div class="flex items-center justify-between text-xs text-stone-400 mb-1">
+            <span>Cash to Collect</span>
+            <span class="text-lg">⏳</span>
+          </div>
+          <div class="text-2xl sm:text-3xl font-black text-rose-300 font-serif-vintage" id="owner-stat-cash-pending">
+            ₹0
+          </div>
+          <span class="text-[10px] text-rose-400/80 font-medium">Collect upon customer arrival</span>
+        </div>
+
+      </div>
+
+      <!-- Main Appointments Management Section -->
+      <div class="vintage-card p-5 sm:p-6 rounded-3xl border border-amber-600/40 space-y-5" id="owner-appointments">
+        
+        <!-- Controls: Filters & Search -->
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 border-b border-[#422d21] pb-5">
+          
+          <!-- Filter Tabs -->
+          <div class="flex flex-wrap items-center gap-1.5 text-xs">
+            <button id="owner-filter-ALL" onclick="setOwnerFilter('ALL')" class="px-3.5 py-1.5 rounded-xl font-bold bg-amber-600 text-stone-950 border border-amber-400 shadow">
+              All Bookings
+            </button>
+            <button id="owner-filter-TODAY" onclick="setOwnerFilter('TODAY')" class="px-3.5 py-1.5 rounded-xl font-semibold bg-[#18110e] text-stone-300 border border-[#422d21] hover:border-amber-500/40">
+              💈 Today
+            </button>
+            <button id="owner-filter-UPCOMING" onclick="setOwnerFilter('UPCOMING')" class="px-3.5 py-1.5 rounded-xl font-semibold bg-[#18110e] text-stone-300 border border-[#422d21] hover:border-amber-500/40">
+              📅 Upcoming
+            </button>
+            <button id="owner-filter-PAID" onclick="setOwnerFilter('PAID')" class="px-3.5 py-1.5 rounded-xl font-semibold bg-[#18110e] text-stone-300 border border-[#422d21] hover:border-amber-500/40">
+              ✓ Online Paid
+            </button>
+            <button id="owner-filter-CASH_PENDING" onclick="setOwnerFilter('CASH_PENDING')" class="px-3.5 py-1.5 rounded-xl font-semibold bg-[#18110e] text-stone-300 border border-[#422d21] hover:border-amber-500/40">
+              ⏳ Cash Pending
+            </button>
+          </div>
+
+          <!-- Live Search Bar -->
+          <div class="relative min-w-[260px] sm:min-w-[320px]">
+            <input 
+              type="text" 
+              placeholder="Search by name, phone (8930440260), token..." 
+              oninput="handleOwnerSearch(this)"
+              class="w-full bg-[#160e0a] border border-[#422d21] rounded-xl px-4 py-2 text-xs text-white placeholder-stone-500 focus:outline-none focus:border-amber-500 transition"
+            >
+            <span class="absolute right-3 top-2.5 text-stone-500 text-xs">🔍</span>
+          </div>
+
+        </div>
+
+        <!-- Desktop Appointments Table (Hidden on small mobile) -->
+        <div class="hidden md:block overflow-x-auto rounded-xl border border-[#3b281d]">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-[#1b120c] border-b border-[#422d21] text-[11px] uppercase tracking-wider text-amber-400">
+                <th class="py-3 px-3">Token & Date</th>
+                <th class="py-3 px-3">Customer Details</th>
+                <th class="py-3 px-3">Arrival Time</th>
+                <th class="py-3 px-3">Selected Services</th>
+                <th class="py-3 px-3">Bill</th>
+                <th class="py-3 px-3">Payment Status</th>
+                <th class="py-3 px-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="owner-bookings-table-body"></tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Appointments Cards (Shown on mobile screens) -->
+        <div id="owner-bookings-mobile-cards" class="md:hidden space-y-3"></div>
+
+      </div>
+
+      <!-- Quick Slot Blocker & Shop Management Tool -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6" id="owner-slot-blocker">
+        
+        <!-- Slot Blocker Form -->
+        <div class="lg:col-span-7 vintage-card p-5 sm:p-6 rounded-3xl border border-amber-600/40 space-y-4">
+          <div class="flex items-center gap-2 border-b border-[#422d21] pb-3">
+            <span class="text-xl">🛡️</span>
+            <div>
+              <h3 class="font-serif-vintage text-base sm:text-lg font-bold text-white">Manual Time Slot Blocker</h3>
+              <p class="text-xs text-stone-400">Block any timing for shop breaks, lunch, or VIP offline walk-in customers.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div>
+              <label class="block text-stone-300 font-medium mb-1">Select Day *</label>
+              <select id="owner-block-day" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500"></select>
+            </div>
+            <div>
+              <label class="block text-stone-300 font-medium mb-1">Select Time Slot *</label>
+              <select id="owner-block-time" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500"></select>
+            </div>
+          </div>
+
+          <div class="text-xs">
+            <label class="block text-stone-300 font-medium mb-1">Block Reason / Customer Tag</label>
+            <input type="text" id="owner-block-reason" placeholder="e.g. Reserved for Walk-in VIP / Lunch Break / Salon Sanitization" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+          </div>
+
+          <div class="pt-2 flex justify-end">
+            <button onclick="handleOwnerBlockSlotSubmit()" class="px-5 py-2.5 bg-gradient-to-r from-red-700 to-amber-700 hover:from-red-600 hover:to-amber-600 text-white font-bold text-xs rounded-xl shadow transition flex items-center gap-2">
+              <span>🛡️ Block Slot (Prevent Online Booking)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Shop & UPI Counter Display Card -->
+        <div class="lg:col-span-5 vintage-card p-5 sm:p-6 rounded-3xl border border-amber-600/40 space-y-4">
+          <div class="flex items-center gap-2 border-b border-[#422d21] pb-3">
+            <span class="text-xl">💈</span>
+            <div>
+              <h3 class="font-serif-vintage text-base sm:text-lg font-bold text-white">Shop Counter & Contact Info</h3>
+              <p class="text-xs text-stone-400">Owner & Stylist Profile</p>
+            </div>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <div class="bg-[#18110e] p-3 rounded-xl border border-[#422d21] space-y-1">
+              <span class="text-stone-400 block text-[11px]">Owner / Stylist Name:</span>
+              <b class="text-white text-sm">Amit Kumar Gazipuria</b>
+            </div>
+
+            <div class="bg-[#18110e] p-3 rounded-xl border border-[#422d21] space-y-1">
+              <span class="text-stone-400 block text-[11px]">Direct Phone & WhatsApp:</span>
+              <a href="tel:8930440260" class="text-amber-400 font-bold hover:underline text-sm flex items-center gap-1">
+                📞 8930440260
+              </a>
+            </div>
+
+            <div class="bg-[#18110e] p-3 rounded-xl border border-[#422d21] space-y-1">
+              <span class="text-stone-400 block text-[11px]">Official Verified UPI ID:</span>
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-emerald-400 font-bold text-xs select-all">amitkumargazipuria@oksbi</span>
+                <button onclick="paymentManager.copyUpiId()" class="text-[10px] bg-amber-600 text-stone-950 font-bold px-2 py-0.5 rounded">
+                  Copy
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button onclick="switchPortal('customer')" class="w-full py-2.5 bg-[#251b14] hover:bg-[#322319] text-stone-200 border border-[#422d21] font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
+              <span>← Back to Customer Website View</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <!-- ========================================================================= -->
+  <!-- END OWNER PORTAL VIEW -->
+  <!-- ========================================================================= -->
 
 
   <!-- ========================================================================= -->
@@ -1044,29 +1312,99 @@
   </div>
 
   <!-- ========================================================================= -->
+  <!-- MODAL 5: CUSTOMER BOOKING LOOKUP & APPOINTMENT TRACKER -->
+  <!-- ========================================================================= -->
+  <div id="customer-lookup-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="vintage-card max-w-lg w-full rounded-2xl border-2 border-amber-600/60 p-6 space-y-4 shadow-2xl relative">
+      <div class="flex items-center justify-between border-b border-[#422d21] pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🔍</span>
+          <div>
+            <h3 class="font-serif-vintage text-lg font-bold text-white">Track Your Appointment</h3>
+            <p class="text-[11px] text-amber-200/70">Check confirmed arrival time, booking status & print slip</p>
+          </div>
+        </div>
+        <button onclick="closeCustomerLookupModal()" class="text-stone-400 hover:text-white text-lg font-bold p-1">✕</button>
+      </div>
+
+      <form id="customer-lookup-form" class="space-y-3">
+        <div>
+          <label class="block text-stone-300 text-xs font-medium mb-1">Enter Your 10-Digit Mobile Number or Token ID</label>
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              id="lookup-query-input" 
+              placeholder="e.g. 8930440260 or AMIT-..." 
+              required 
+              class="flex-1 bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white text-xs focus:outline-none focus:border-amber-500"
+            >
+            <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-stone-950 font-bold rounded-xl text-xs shadow">
+              Track
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div id="lookup-results-container" class="max-h-80 overflow-y-auto pt-2"></div>
+
+      <div class="pt-2 border-t border-[#422d21] flex justify-between items-center text-[11px] text-stone-500">
+        <span>Need help? Call Amit: <a href="tel:8930440260" class="text-amber-400">8930440260</a></span>
+        <button onclick="closeCustomerLookupModal()" class="text-stone-400 hover:text-white underline">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
   <!-- MOBILE BOTTOM APP NAVIGATION BAR (Native Mobile App Feel) -->
   <!-- ========================================================================= -->
-  <nav class="mobile-bottom-nav grid grid-cols-5 text-center">
-    <a href="#" class="mobile-nav-item active">
-      <span class="icon">💈</span>
-      <span>Home</span>
-    </a>
-    <a href="#services" class="mobile-nav-item">
-      <span class="icon">✂️</span>
-      <span>Services</span>
-    </a>
-    <a href="#booking-section" class="mobile-nav-item">
-      <span class="icon">📅</span>
-      <span>Book Slot</span>
-    </a>
-    <a href="#upi-qr-section" class="mobile-nav-item">
-      <span class="icon">💳</span>
-      <span>Pay UPI</span>
-    </a>
-    <a href="#reviews-section" class="mobile-nav-item">
-      <span class="icon">⭐</span>
-      <span>Reviews</span>
-    </a>
+  <nav class="mobile-bottom-nav">
+    <!-- Customer Mode Mobile Tabs -->
+    <div id="mobile-nav-customer-tabs" class="grid grid-cols-5 text-center w-full">
+      <a href="#" class="mobile-nav-item active">
+        <span class="icon">💈</span>
+        <span>Home</span>
+      </a>
+      <a href="#services" class="mobile-nav-item">
+        <span class="icon">✂️</span>
+        <span>Services</span>
+      </a>
+      <a href="#booking-section" class="mobile-nav-item">
+        <span class="icon">📅</span>
+        <span>Book Slot</span>
+      </a>
+      <button onclick="openCustomerLookupModal()" class="mobile-nav-item">
+        <span class="icon">🔍</span>
+        <span>Track</span>
+      </button>
+      <button onclick="switchPortal('owner')" class="mobile-nav-item text-amber-400">
+        <span class="icon">👑</span>
+        <span>Owner</span>
+      </button>
+    </div>
+
+    <!-- Owner Mode Mobile Tabs -->
+    <div id="mobile-nav-owner-tabs" class="grid grid-cols-5 text-center w-full hidden">
+      <a href="#owner-overview" class="mobile-nav-item active">
+        <span class="icon">📊</span>
+        <span>Stats</span>
+      </a>
+      <a href="#owner-appointments" class="mobile-nav-item">
+        <span class="icon">📋</span>
+        <span>Bookings</span>
+      </a>
+      <a href="#owner-slot-blocker" class="mobile-nav-item">
+        <span class="icon">🛡️</span>
+        <span>Block</span>
+      </a>
+      <button onclick="openCustomServiceModal()" class="mobile-nav-item">
+        <span class="icon">➕</span>
+        <span>Add Cut</span>
+      </button>
+      <button onclick="switchPortal('customer')" class="mobile-nav-item text-emerald-400">
+        <span class="icon">👤</span>
+        <span>Customer</span>
+      </button>
+    </div>
   </nav>
 
   <!-- FLOATING MOBILE STICKY BOOKING DRAWER (Shows when services selected) -->

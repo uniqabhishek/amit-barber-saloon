@@ -211,6 +211,38 @@ body {
   }
 }
 
+/* Portal Switcher & Owner Dashboard Styles */
+.portal-switch-active {
+  background: linear-gradient(135deg, #d97706, #f59e0b) !important;
+  color: #120c09 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);
+}
+
+.portal-switch-inactive {
+  background: #1c140f !important;
+  color: #d6d3d1 !important;
+  border-color: #422d21 !important;
+}
+
+.portal-switch-inactive:hover {
+  color: #ffffff !important;
+  border-color: #d97706 !important;
+}
+
+.owner-metric-card {
+  background: linear-gradient(145deg, #201610, #160e0a);
+  border: 1px solid #422d21;
+  border-radius: 16px;
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.owner-metric-card:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+}
+
 /* Print Styles for Appointment Slips */
 @media print {
   body * {

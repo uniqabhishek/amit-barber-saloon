@@ -1025,6 +1025,434 @@ function cancelBooking(bookingId) {
 }
 
 // ----------------------------------------------------
+// PORTAL SWITCHER & OWNER / CUSTOMER CONTROL
+// ----------------------------------------------------
+let currentPortal = 'customer';
+let ownerState = {
+  activeFilter: 'ALL',
+  searchQuery: ''
+};
+
+function switchPortal(portalName) {
+  currentPortal = portalName;
+  const customerView = document.getElementById("customer-portal-view");
+  const ownerView = document.getElementById("owner-portal-view");
+  const btnCustomer = document.getElementById("btn-portal-customer");
+  const btnOwner = document.getElementById("btn-portal-owner");
+  const mobileNavCustomer = document.getElementById("mobile-nav-customer-tabs");
+  const mobileNavOwner = document.getElementById("mobile-nav-owner-tabs");
+
+  if (portalName === 'owner') {
+    if (customerView) customerView.classList.add("hidden");
+    if (ownerView) ownerView.classList.remove("hidden");
+
+    if (btnCustomer) {
+      btnCustomer.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 portal-switch-inactive";
+    }
+    if (btnOwner) {
+      btnOwner.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 portal-switch-active";
+    }
+
+    if (mobileNavCustomer) mobileNavCustomer.classList.add("hidden");
+    if (mobileNavOwner) mobileNavOwner.classList.remove("hidden");
+
+    renderOwnerDashboard();
+    initOwnerSlotSelects();
+    paymentManager.showToast("Logged into Owner Portal (Amit)");
+  } else {
+    if (customerView) customerView.classList.remove("hidden");
+    if (ownerView) ownerView.classList.add("hidden");
+
+    if (btnCustomer) {
+      btnCustomer.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 portal-switch-active";
+    }
+    if (btnOwner) {
+      btnOwner.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 portal-switch-inactive";
+    }
+
+    if (mobileNavCustomer) mobileNavCustomer.classList.remove("hidden");
+    if (mobileNavOwner) mobileNavOwner.classList.add("hidden");
+
+    renderTimeSlots();
+    renderServices();
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function initOwnerSlotSelects() {
+  const daySelect = document.getElementById("owner-block-day");
+  const timeSelect = document.getElementById("owner-block-time");
+  if (!daySelect || !timeSelect) return;
+
+  daySelect.innerHTML = "";
+  for (let i = 0; i < 6; i++) {
+    const dStr = getFormattedDate(i);
+    const opt = document.createElement("option");
+    opt.value = dStr;
+    opt.textContent = dStr;
+    daySelect.appendChild(opt);
+  }
+
+  timeSelect.innerHTML = "";
+  ALL_DAY_SLOTS.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    timeSelect.appendChild(opt);
+  });
+}
+
+function setOwnerFilter(filter) {
+  ownerState.activeFilter = filter;
+  ['ALL', 'TODAY', 'UPCOMING', 'PAID', 'CASH_PENDING'].forEach(f => {
+    const btn = document.getElementById(`owner-filter-${f}`);
+    if (btn) {
+      if (f === filter) {
+        btn.className = "px-3.5 py-1.5 rounded-xl font-bold bg-amber-600 text-stone-950 border border-amber-400 shadow";
+      } else {
+        btn.className = "px-3.5 py-1.5 rounded-xl font-semibold bg-[#18110e] text-stone-300 border border-[#422d21] hover:border-amber-500/40";
+      }
+    }
+  });
+  renderOwnerDashboard();
+}
+
+function handleOwnerSearch(input) {
+  ownerState.searchQuery = input.value.trim().toLowerCase();
+  renderOwnerDashboard();
+}
+
+function renderOwnerDashboard() {
+  const tableBody = document.getElementById("owner-bookings-table-body");
+  const mobileCards = document.getElementById("owner-bookings-mobile-cards");
+
+  const statTodayCount = document.getElementById("owner-stat-today-count");
+  const statUpcomingCount = document.getElementById("owner-stat-upcoming-count");
+  const statTotalRev = document.getElementById("owner-stat-total-revenue");
+  const statOnlinePaid = document.getElementById("owner-stat-online-paid");
+  const statCashPending = document.getElementById("owner-stat-cash-pending");
+
+  const list = JSON.parse(localStorage.getItem("amit_saloon_bookings") || "[]");
+  const todayStr = getFormattedDate(0);
+
+  // Compute Metrics
+  let todayCount = 0;
+  let totalRevenue = 0;
+  let onlinePaidAmount = 0;
+  let cashPendingAmount = 0;
+
+  list.forEach(b => {
+    totalRevenue += Number(b.totalAmount) || 0;
+    if (b.date && b.date.includes(todayStr.split(",")[0])) {
+      todayCount++;
+    }
+    if (b.paymentStatus === 'PAID_SUCCESS') {
+      onlinePaidAmount += Number(b.totalAmount) || 0;
+    } else {
+      cashPendingAmount += Number(b.totalAmount) || 0;
+    }
+  });
+
+  if (statTodayCount) statTodayCount.textContent = todayCount;
+  if (statUpcomingCount) statUpcomingCount.textContent = list.length;
+  if (statTotalRev) statTotalRev.textContent = `₹${totalRevenue}`;
+  if (statOnlinePaid) statOnlinePaid.textContent = `₹${onlinePaidAmount}`;
+  if (statCashPending) statCashPending.textContent = `₹${cashPendingAmount}`;
+
+  // Filter List
+  const filtered = list.filter(b => {
+    // 1. Search Query
+    if (ownerState.searchQuery) {
+      const q = ownerState.searchQuery;
+      const matchName = b.customerName && b.customerName.toLowerCase().includes(q);
+      const matchPhone = b.customerPhone && b.customerPhone.includes(q);
+      const matchId = b.bookingId && b.bookingId.toLowerCase().includes(q);
+      const matchDate = b.date && b.date.toLowerCase().includes(q);
+      if (!matchName && !matchPhone && !matchId && !matchDate) return false;
+    }
+
+    // 2. Active Tab Filter
+    if (ownerState.activeFilter === 'TODAY') {
+      return b.date && b.date.includes(todayStr.split(",")[0]);
+    }
+    if (ownerState.activeFilter === 'UPCOMING') {
+      return !(b.date && b.date.includes(todayStr.split(",")[0]));
+    }
+    if (ownerState.activeFilter === 'PAID') {
+      return b.paymentStatus === 'PAID_SUCCESS';
+    }
+    if (ownerState.activeFilter === 'CASH_PENDING') {
+      return b.paymentStatus !== 'PAID_SUCCESS';
+    }
+    return true;
+  });
+
+  // Render Table (Desktop)
+  if (tableBody) {
+    if (filtered.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="7" class="text-center py-10 text-stone-500 text-xs">No bookings found matching filter.</td></tr>`;
+    } else {
+      tableBody.innerHTML = filtered.map(b => {
+        const isPaid = b.paymentStatus === 'PAID_SUCCESS';
+        const cleanPhone = b.customerPhone ? b.customerPhone.replace(/[^0-9]/g, "") : "8930440260";
+        const serviceNames = (b.services || []).map(s => s.name).join(", ");
+
+        return `
+          <tr class="border-b border-[#422d21]/60 text-xs text-stone-200 hover:bg-[#22160f]/60 transition">
+            <td class="py-3 px-3">
+              <span class="font-mono text-amber-300 font-bold block">${b.bookingId}</span>
+              <span class="text-[10px] text-stone-400">${b.date}</span>
+            </td>
+            <td class="py-3 px-3">
+              <b class="text-white text-sm block">${b.customerName}</b>
+              <div class="flex items-center gap-2 mt-0.5">
+                <a href="tel:${cleanPhone}" class="text-[11px] text-amber-400 hover:underline flex items-center gap-0.5 font-bold">
+                  📞 ${cleanPhone}
+                </a>
+                <a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Hello ${b.customerName}, regarding your appointment at Amit's Barber Shop on ${b.date} at ${b.time}`)}" target="_blank" class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-700/60 px-1.5 py-0.2 rounded font-bold hover:bg-emerald-900">
+                  💬 WhatsApp
+                </a>
+              </div>
+            </td>
+            <td class="py-3 px-3">
+              <span class="font-bold text-amber-400 block">${b.time}</span>
+              <span class="text-[10px] text-stone-400">${b.stylist || 'Amit'}</span>
+            </td>
+            <td class="py-3 px-3 max-w-xs">
+              <p class="truncate text-stone-300" title="${serviceNames}">${serviceNames}</p>
+              <span class="text-[10px] text-stone-500">Duration: ${b.durationMin || 30} min</span>
+            </td>
+            <td class="py-3 px-3">
+              <span class="font-serif-vintage font-bold text-white text-sm">₹${b.totalAmount}</span>
+            </td>
+            <td class="py-3 px-3">
+              ${isPaid 
+                ? `<span class="bg-emerald-950 text-emerald-300 border border-emerald-700 px-2.5 py-1 rounded-full text-[10px] font-bold block text-center">✓ PAID (UPI)</span>`
+                : `<span class="bg-amber-950 text-amber-300 border border-amber-700 px-2.5 py-1 rounded-full text-[10px] font-bold block text-center">⏳ CASH PENDING</span>`
+              }
+            </td>
+            <td class="py-3 px-3 text-right">
+              <div class="flex items-center justify-end gap-1.5">
+                ${!isPaid ? `
+                  <button onclick="markBookingAsPaid('${b.bookingId}')" title="Collect Cash" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-[10px] transition">
+                    ✓ Paid
+                  </button>
+                ` : ''}
+                <button onclick="printBookingFromOwner('${b.bookingId}')" title="Print Slip" class="px-2 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 rounded-lg text-[10px] transition">
+                  🖨️
+                </button>
+                <button onclick="cancelBookingByOwner('${b.bookingId}')" title="Cancel Booking & Free Slot" class="px-2 py-1 bg-red-950 hover:bg-red-800 text-red-300 rounded-lg text-[10px] border border-red-800 transition">
+                  ✕
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+  }
+
+  // Render Mobile Cards
+  if (mobileCards) {
+    if (filtered.length === 0) {
+      mobileCards.innerHTML = `<div class="p-6 text-center text-stone-500 text-xs bg-[#18110e] rounded-xl border border-[#422d21]">No bookings found.</div>`;
+    } else {
+      mobileCards.innerHTML = filtered.map(b => {
+        const isPaid = b.paymentStatus === 'PAID_SUCCESS';
+        const cleanPhone = b.customerPhone ? b.customerPhone.replace(/[^0-9]/g, "") : "8930440260";
+        const serviceNames = (b.services || []).map(s => s.name).join(", ");
+
+        return `
+          <div class="vintage-card p-4 rounded-2xl border border-[#422d21] space-y-3">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="font-mono text-amber-400 font-bold text-xs">${b.bookingId}</span>
+                <h4 class="text-white font-bold text-sm mt-0.5">${b.customerName}</h4>
+              </div>
+              <div>
+                ${isPaid 
+                  ? `<span class="bg-emerald-950 text-emerald-300 border border-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold">✓ PAID</span>`
+                  : `<span class="bg-amber-950 text-amber-300 border border-amber-700 px-2 py-0.5 rounded text-[10px] font-bold">⏳ CASH PENDING</span>`
+                }
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 text-xs bg-[#18110e] p-2.5 rounded-xl border border-[#422d21]/60">
+              <div>
+                <span class="text-stone-500 text-[10px] block">Appointment:</span>
+                <b class="text-amber-300">${b.date} @ ${b.time}</b>
+              </div>
+              <div>
+                <span class="text-stone-500 text-[10px] block">Total Amount:</span>
+                <b class="text-white font-serif-vintage text-sm">₹${b.totalAmount}</b>
+              </div>
+            </div>
+
+            <div class="text-xs text-stone-300">
+              <span class="text-stone-500 text-[10px] block">Services:</span>
+              <p class="text-[11px] leading-snug">${serviceNames}</p>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-[#422d21] text-xs">
+              <div class="flex items-center gap-2">
+                <a href="tel:${cleanPhone}" class="px-2.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded-lg text-xs flex items-center gap-1">
+                  📞 Call
+                </a>
+                <a href="https://wa.me/91${cleanPhone}" target="_blank" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs flex items-center gap-1">
+                  💬 Chat
+                </a>
+              </div>
+              <div class="flex items-center gap-1.5">
+                ${!isPaid ? `
+                  <button onclick="markBookingAsPaid('${b.bookingId}')" class="px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-lg text-xs">
+                    Mark Paid
+                  </button>
+                ` : ''}
+                <button onclick="cancelBookingByOwner('${b.bookingId}')" class="px-2.5 py-1.5 bg-red-950 text-red-300 border border-red-800 rounded-lg text-xs">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+  }
+}
+
+function markBookingAsPaid(bookingId) {
+  try {
+    let list = JSON.parse(localStorage.getItem("amit_saloon_bookings") || "[]");
+    const item = list.find(b => b.bookingId === bookingId);
+    if (item) {
+      item.paymentStatus = 'PAID_SUCCESS';
+      item.paymentMethod = 'Offline (Cash Collected at Counter)';
+      localStorage.setItem("amit_saloon_bookings", JSON.stringify(list));
+      renderOwnerDashboard();
+      paymentManager.showToast(`Booking ${bookingId} marked as PAID!`);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function cancelBookingByOwner(bookingId) {
+  if (confirm(`Cancel booking ${bookingId}? This will free up the slot for other customers.`)) {
+    try {
+      let list = JSON.parse(localStorage.getItem("amit_saloon_bookings") || "[]");
+      list = list.filter(b => b.bookingId !== bookingId);
+      localStorage.setItem("amit_saloon_bookings", JSON.stringify(list));
+      loadBookingsBadge();
+      renderOwnerDashboard();
+      paymentManager.showToast(`Booking ${bookingId} cancelled. Slot is now available.`);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
+
+function printBookingFromOwner(bookingId) {
+  try {
+    const list = JSON.parse(localStorage.getItem("amit_saloon_bookings") || "[]");
+    const item = list.find(b => b.bookingId === bookingId);
+    if (item) {
+      renderReceiptModal(item);
+    }
+  } catch (e) {}
+}
+
+function handleOwnerBlockSlotSubmit() {
+  const day = document.getElementById("owner-block-day").value;
+  const time = document.getElementById("owner-block-time").value;
+  const reason = document.getElementById("owner-block-reason").value.trim() || "Reserved by Amit (Salon Owner)";
+
+  const blockRecord = {
+    bookingId: "BLOCKED-" + Math.floor(1000 + Math.random() * 9000),
+    timestamp: new Date().toISOString(),
+    customerName: reason,
+    customerPhone: "8930440260",
+    customerEmail: "amitkumargazipuria@oksbi",
+    stylist: "Amit (Master Barber & Stylist)",
+    date: day,
+    time: time,
+    durationMin: 30,
+    services: [{ name: reason, price: 0 }],
+    totalAmount: 0,
+    paymentMethod: "Owner Reserved",
+    paymentStatus: "PAID_SUCCESS"
+  };
+
+  saveBookingToHistory(blockRecord);
+  renderOwnerDashboard();
+  paymentManager.showToast(`Slot ${time} on ${day} blocked successfully!`);
+}
+
+// ----------------------------------------------------
+// CUSTOMER BOOKING LOOKUP TRACKER
+// ----------------------------------------------------
+function openCustomerLookupModal() {
+  const modal = document.getElementById("customer-lookup-modal");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function closeCustomerLookupModal() {
+  const modal = document.getElementById("customer-lookup-modal");
+  if (modal) modal.classList.add("hidden");
+}
+
+function handleCustomerLookupSubmit(e) {
+  if (e) e.preventDefault();
+  const input = document.getElementById("lookup-query-input").value.trim().toLowerCase();
+  const resultsContainer = document.getElementById("lookup-results-container");
+
+  if (!input) {
+    alert("Please enter your mobile number or token number!");
+    return;
+  }
+
+  const list = JSON.parse(localStorage.getItem("amit_saloon_bookings") || "[]");
+  const matches = list.filter(b => {
+    const mPhone = b.customerPhone && b.customerPhone.includes(input);
+    const mId = b.bookingId && b.bookingId.toLowerCase().includes(input);
+    const mName = b.customerName && b.customerName.toLowerCase().includes(input);
+    return mPhone || mId || mName;
+  });
+
+  if (matches.length === 0) {
+    resultsContainer.innerHTML = `
+      <div class="p-5 text-center text-stone-400 text-xs bg-[#18110e] rounded-xl border border-[#422d21]">
+        No appointments found for "${input}". Please check the phone number or place a new booking!
+      </div>
+    `;
+  } else {
+    resultsContainer.innerHTML = matches.map(b => `
+      <div class="vintage-card p-4 rounded-xl border border-amber-600/40 space-y-2.5 text-xs mb-3">
+        <div class="flex items-center justify-between">
+          <span class="font-mono text-amber-300 font-bold">${b.bookingId}</span>
+          <span class="text-[10px] px-2 py-0.5 rounded font-bold ${
+            b.paymentStatus === 'PAID_SUCCESS' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-amber-950 text-amber-300 border border-amber-800'
+          }">${b.paymentStatus === 'PAID_SUCCESS' ? '✓ Online Paid' : '⏳ Pay at Salon'}</span>
+        </div>
+        <div class="p-2.5 bg-amber-500/10 rounded-lg border border-amber-500/30 text-amber-200">
+          ⏰ <b>Confirmed Arrival Time:</b> ${b.date} at <b>${b.time}</b><br>
+          <span class="text-[11px] text-stone-300">Please arrive 10 min early at Amit's Barber Shop!</span>
+        </div>
+        <div class="flex justify-between items-center text-stone-300 text-[11px]">
+          <span>Services: ${(b.services || []).map(s => s.name).join(", ")}</span>
+          <b class="text-white font-serif-vintage text-sm">₹${b.totalAmount}</b>
+        </div>
+        <div class="pt-2 flex justify-end gap-2 border-t border-[#422d21]">
+          <button onclick="renderReceiptModal(${JSON.stringify(b).replace(/"/g, '&quot;')})" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded-lg text-xs">
+            View / Print Full Slip
+          </button>
+        </div>
+      </div>
+    `).join("");
+  }
+}
+
+// ----------------------------------------------------
 // EVENT LISTENERS SETUP
 // ----------------------------------------------------
 function setupEventListeners() {
@@ -1041,5 +1469,10 @@ function setupEventListeners() {
   const customServiceForm = document.getElementById("custom-service-form");
   if (customServiceForm) {
     customServiceForm.addEventListener("submit", handleAddCustomServiceSubmit);
+  }
+
+  const lookupForm = document.getElementById("customer-lookup-form");
+  if (lookupForm) {
+    lookupForm.addEventListener("submit", handleCustomerLookupSubmit);
   }
 }
