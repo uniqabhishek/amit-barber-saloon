@@ -1,0 +1,19 @@
+{
+  "name": "amit-vintage-barbershop",
+  "version": "1.0.0",
+  "description": "Amit's Vintage Barber Shop & Grooming Lounge - Hair Cutting, Beard Smoothing & Keratin Spa Booking Web App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "barber",
+    "salon",
+    "haircut",
+    "beard-smoothing",
+    "keratin",
+    "appointment-booking"
+  ],
+  "author": "Amit (8930440260)",
+  "license": "MIT"
+}

@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amit's Vintage Barber Shop | Hair Cutting, Beard Smoothing & Keratin Spa</title>
+  
+  <!-- Tailwind CSS via allowed CDN -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#120c09] text-stone-100 antialiased min-h-screen">
+
+  <!-- ========================================================================= -->
+  <!-- TOP RETRO BARBER POLE & NOTICE STRIP -->
+  <!-- ========================================================================= -->
+  <div class="h-2 w-full barber-pole-animated"></div>
+
+  <!-- ANNOUNCEMENT & UPI INFO TOP BAR -->
+  <div class="bg-[#1a120d] border-b border-[#3b281d] px-4 py-2 text-xs">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
+      
+      <!-- Timing & UPI ID -->
+      <div class="flex flex-wrap items-center gap-3 text-amber-200/90 font-medium">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>💈 Open 7 Days: 09:00 AM – 09:30 PM</span>
+        <span class="text-stone-600 hidden sm:inline">|</span>
+        <div class="flex items-center gap-1.5 bg-[#251b14] px-2.5 py-0.5 rounded-lg border border-amber-700/40">
+          <span class="text-amber-400 font-bold">UPI ID:</span>
+          <span class="font-mono text-white text-[11px] select-all">amitkumargazipuria@oksbi</span>
+          <button onclick="paymentManager.copyUpiId()" class="text-[10px] bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-1.5 py-0.5 rounded transition">
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <!-- Developer & Salon Owner View -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 text-stone-300">
+          <span>Developer & Stylist:</span>
+          <b class="text-white">Amit</b>
+          <span class="text-stone-600">•</span>
+          <a href="tel:8930440260" class="text-amber-400 font-bold hover:underline flex items-center gap-1">
+            📞 8930440260
+          </a>
+        </div>
+        <button onclick="openStaffBookingsModal()" class="text-[11px] bg-red-950 text-red-200 border border-red-700/60 hover:bg-red-900 px-2.5 py-1 rounded-full font-bold transition flex items-center gap-1">
+          <span>📋 Today's Appointments</span>
+          <span id="staff-bookings-count" class="bg-red-600 text-white px-1.5 py-0.2 rounded-full text-[10px]">0</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN NAVBAR -->
+  <!-- ========================================================================= -->
+  <nav class="sticky top-0 z-40 bg-[#160f0b]/95 backdrop-blur border-b border-[#3b281d] px-4 py-3 shadow-2xl">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-full border-2 border-amber-500/80 bg-gradient-to-br from-amber-700 to-amber-950 flex items-center justify-center text-amber-200 text-xl font-bold shadow-lg shadow-amber-950/80 group-hover:rotate-12 transition-transform duration-300">
+          💈
+        </div>
+        <div>
+          <span class="font-cinzel text-base sm:text-xl font-black text-amber-100 tracking-wider block leading-tight">
+            AMIT'S BARBERSHOP
+          </span>
+          <span class="text-[10px] text-amber-400/80 uppercase tracking-widest font-serif-vintage block">
+            Haircut, Beard Smoothing & Keratin Spa
+          </span>
+        </div>
+      </a>
+
+      <!-- Quick Category Nav Links -->
+      <div class="hidden xl:flex items-center gap-5 text-xs uppercase tracking-wider font-semibold text-stone-300">
+        <a href="#services" class="hover:text-amber-400 transition">All 35+ Services</a>
+        <a href="#booking-section" class="hover:text-amber-400 transition">Real-Time Slots</a>
+        <a href="#upi-qr-section" class="hover:text-amber-400 transition text-emerald-400">UPI QR & Pay</a>
+        <a href="#reviews-section" class="hover:text-amber-400 transition">Reviews (4.9 ★)</a>
+        <a href="#developer-section" class="hover:text-amber-400 transition text-amber-300">Developer Amit</a>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="openCustomServiceModal()" class="hidden sm:flex text-xs px-3 py-2 rounded-xl bg-[#2b1f18] border border-amber-600/40 text-amber-300 hover:bg-amber-600 hover:text-stone-950 font-bold items-center gap-1.5 transition">
+          <span>➕ Custom Haircut</span>
+        </button>
+        <a href="#booking-section" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-stone-950 font-bold text-xs md:text-sm shadow-lg shadow-amber-600/25 transition-all duration-200 hover:scale-105 flex items-center gap-1.5">
+          <span>📅 Book Chair</span>
+        </a>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- HERO BANNER SECTION -->
+  <!-- ========================================================================= -->
+  <section class="relative overflow-hidden py-10 md:py-16 border-b border-[#3b281d] bg-gradient-to-b from-[#1b120c] via-[#140d09] to-[#120c09]">
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-950/70 border border-amber-700/50 text-amber-300 text-xs font-semibold">
+            <span>💈 Authentic Local Barber & Hair Spa</span>
+            <span class="text-amber-600">•</span>
+            <span>Master Barber: Amit</span>
+          </div>
+
+          <h1 class="font-serif-vintage text-3xl sm:text-5xl font-black text-amber-50 leading-[1.18] tracking-tight">
+            PRECISION CUTS, BEARD SMOOTHING & <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 italic">
+              KERATIN (CARETIN) SPA
+            </span>
+          </h1>
+
+          <p class="text-stone-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl">
+            Clean, simple, and hassle-free booking. Explore all 35+ local salon services, customize your haircut and price, view free vs booked timing slots with zero overlap, and pay securely via UPI QR (<b>amitkumargazipuria@oksbi</b>) or cash at the shop.
+          </p>
+
+          <!-- Key Highlights Badges -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1 text-xs">
+            <div class="bg-[#1f1611] p-2.5 rounded-xl border border-[#422d21] text-center">
+              <span class="text-emerald-400 font-bold block text-sm">🟢 Free Slots</span>
+              <span class="text-stone-400 text-[10px]">Real-time availability</span>
+            </div>
+
+            <div class="bg-[#1f1611] p-2.5 rounded-xl border border-[#422d21] text-center">
+              <span class="text-amber-400 font-bold block text-sm">🛡️ Zero Overlap</span>
+              <span class="text-stone-400 text-[10px]">No double booking</span>
+            </div>
+
+            <div class="bg-[#1f1611] p-2.5 rounded-xl border border-[#422d21] text-center">
+              <span class="text-sky-400 font-bold block text-sm">💳 Instant UPI QR</span>
+              <span class="text-stone-400 text-[10px]">All platforms + cash</span>
+            </div>
+
+            <div class="bg-[#1f1611] p-2.5 rounded-xl border border-[#422d21] text-center">
+              <span class="text-yellow-400 font-bold block text-sm">✂️ Custom Cuts</span>
+              <span class="text-stone-400 text-[10px]">Set your own price</span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <a href="#booking-section" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 text-stone-950 font-bold text-xs sm:text-sm shadow-xl shadow-amber-600/30 hover:scale-105 transition flex items-center gap-2">
+              <span>📅 View Free Slots & Book</span> &rarr;
+            </a>
+
+            <button onclick="openCustomServiceModal()" class="px-5 py-3 rounded-xl bg-[#251b14] hover:bg-[#30231a] text-amber-200 border border-[#422d21] text-xs font-semibold flex items-center gap-2">
+              <span>➕ Request Custom Haircut</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Instant UPI QR & Special Promo Card -->
+        <div class="lg:col-span-5">
+          <div class="vintage-card p-5 sm:p-6 rounded-3xl border-2 border-amber-600/40 relative shadow-2xl space-y-4">
+            
+            <div class="flex items-center justify-between border-b border-[#422d21] pb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-xl">💳</span>
+                <div>
+                  <h4 class="font-bold text-white text-sm">Scan & Pay via Any UPI App</h4>
+                  <p class="text-[10px] text-stone-400">Google Pay • PhonePe • Paytm • BHIM</p>
+                </div>
+              </div>
+              <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-700 px-2 py-0.5 rounded font-bold">
+                ✓ Verified VPA
+              </span>
+            </div>
+
+            <!-- Mini QR Card Preview -->
+            <div class="bg-white p-3 rounded-2xl text-center text-stone-900 border-2 border-amber-500/50">
+              <div id="hero-qr-container" class="my-1"></div>
+              <p class="text-xs font-bold text-stone-900 font-mono mt-1">amitkumargazipuria@oksbi</p>
+              <div class="flex items-center justify-center gap-2 mt-2">
+                <button onclick="paymentManager.copyUpiId()" class="text-[10px] px-3 py-1 bg-stone-900 hover:bg-stone-800 text-white font-bold rounded-lg transition">
+                  📋 Copy UPI ID
+                </button>
+                <a href="upi://pay?pa=amitkumargazipuria@oksbi&pn=Amit%20Barber%20Shop&cu=INR" class="text-[10px] px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition">
+                  ⚡ Open in UPI App
+                </a>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-[#1a120d] border border-amber-800/40 text-[11px] text-amber-200/80 flex items-center justify-between">
+              <div>
+                <span>Default Client: <b class="text-white">Amit</b></span><br>
+                <span>Lead Stylist: <b class="text-amber-400">Amit</b> (8930440260)</span>
+              </div>
+              <a href="#services" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded-lg text-xs">
+                Explore Menu
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- EXPLORABLE SERVICES MENU WITH LIVE SEARCH & CATEGORY TABS -->
+  <!-- ========================================================================= -->
+  <section id="services" class="py-12 max-w-7xl mx-auto px-4">
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-amber-400 font-bold">Complete Local Salon Catalog</span>
+        <h2 class="font-serif-vintage text-2xl sm:text-3xl font-extrabold text-amber-100 mt-1">
+          Explore All Salon Services & Treatments
+        </h2>
+        <p class="text-stone-400 text-xs sm:text-sm mt-1">
+          From ₹50 regular trim to luxury Keratin smoothening. Click any service to add to your appointment!
+        </p>
+      </div>
+
+      <!-- Action: Add Custom Service / Price -->
+      <button onclick="openCustomServiceModal()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-stone-950 font-bold text-xs shadow-lg transition flex items-center gap-2 self-start md:self-auto shrink-0">
+        <span>➕ Add Custom Haircut / Price</span>
+      </button>
+    </div>
+
+    <!-- LIVE SEARCH & CATEGORY FILTER TABS -->
+    <div class="vintage-card p-4 rounded-2xl border border-[#422d21] mb-8 space-y-4">
+      
+      <!-- Search Input Bar -->
+      <div class="relative">
+        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-base">🔍</span>
+        <input 
+          type="text" 
+          id="service-search-input" 
+          oninput="handleServiceSearch(this)"
+          placeholder="Search haircut (fade, buzz, pompadour), beard smoothing, caretin, facial, champi, shave..." 
+          class="w-full bg-[#18110e] border border-[#422d21] rounded-xl pl-10 pr-4 py-3 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-500 transition placeholder:text-stone-500"
+        >
+      </div>
+
+      <!-- Category Filter Pills (Scrollable horizontally) -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+        <button id="filter-btn-ALL" onclick="filterServicesByCategory('ALL')" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold border transition whitespace-nowrap bg-amber-600 text-stone-950 border-amber-400 shadow-md shadow-amber-600/30">
+          🌟 All Services (35+)
+        </button>
+        <button id="filter-btn-HairCuttingStyling" onclick="filterServicesByCategory('Hair Cutting & Styling')" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold border transition whitespace-nowrap bg-[#18110e] text-stone-300 border-[#422d21] hover:border-amber-500/50">
+          ✂️ Hair Cutting & Styling
+        </button>
+        <button id="filter-btn-BeardGroomingShaving" onclick="filterServicesByCategory('Beard Grooming & Shaving')" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold border transition whitespace-nowrap bg-[#18110e] text-stone-300 border-[#422d21] hover:border-amber-500/50">
+          🧔 Beard Grooming & Shaving
+        </button>
+        <button id="filter-btn-KeratinCaretinHairTreatments" onclick="filterServicesByCategory('Keratin (Caretin) & Hair Treatments')" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold border transition whitespace-nowrap bg-[#18110e] text-stone-300 border-[#422d21] hover:border-amber-500/50">
+          ✨ Keratin (Caretin) & Spa
+        </button>
+        <button id="filter-btn-FacialsCleanupsDTan" onclick="filterServicesByCategory('Facials, Clean-ups & D-Tan')" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold border transition whitespace-nowrap bg-[#18110e] text-stone-300 border-[#422d21] hover:border-amber-500/50">
+          🧖‍♂️ Facials & D-Tan
+        </button>
+        <button id="filter-btn-HeadChampiRelaxation" onclick="filterServicesByCategory('Head Champi & Relaxation')" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold border transition whitespace-nowrap bg-[#18110e] text-stone-300 border-[#422d21] hover:border-amber-500/50">
+          💆‍♂️ Head Champi & Massages
+        </button>
+        <button id="filter-btn-MoneySaverCombos" onclick="filterServicesByCategory('Money-Saver Combos')" class="cat-filter-btn px-4 py-2 rounded-xl text-xs font-bold border transition whitespace-nowrap bg-[#18110e] text-stone-300 border-[#422d21] hover:border-amber-500/50">
+          👑 Value Combos
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Dynamic Services Catalog rendered via JS -->
+    <div id="services-catalog-container"></div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- REAL-TIME BOOKING & OVERLAP PROTECTION TIMING SECTION -->
+  <!-- ========================================================================= -->
+  <section id="booking-section" class="py-12 bg-[#17100b] border-y border-[#3b281d] relative">
+    <div class="max-w-7xl mx-auto px-4">
+      
+      <div class="text-center max-w-2xl mx-auto mb-8">
+        <span class="text-xs uppercase tracking-widest text-amber-400 font-bold">Smart Timing & Overlap Manager</span>
+        <h2 class="font-serif-vintage text-2xl sm:text-3xl font-black text-amber-100 mt-1">
+          Select Your Free Slot & Customer Details
+        </h2>
+        <p class="text-stone-400 text-xs sm:text-sm mt-1">
+          Slots in <b class="text-emerald-400">Green</b> are open for booking. Slots in <b class="text-red-400">Red</b> are already occupied to prevent double-booking.
+        </p>
+      </div>
+
+      <!-- Main Booking Grid -->
+      <form id="appointment-booking-form" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Booking Controls (8 Columns) -->
+        <div class="lg:col-span-8 space-y-6">
+          
+          <!-- Step 1: Barber Selection -->
+          <div class="vintage-card rounded-2xl p-5 sm:p-6 border border-[#422d21]">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-serif-vintage text-base font-bold text-amber-100 flex items-center gap-2">
+                <span>✂️</span> Step 1: Select Master Stylist
+              </h3>
+              <span class="text-[11px] text-amber-400 font-semibold">Master Specialist Available</span>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <label class="p-3 rounded-xl border border-amber-500/70 bg-[#2b1f18] cursor-pointer flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-1.5">
+                  <input type="radio" name="stylist_choice" value="Amit (Master Barber & Stylist)" checked class="accent-amber-500">
+                  <span class="text-[9px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold">FOUNDER</span>
+                </div>
+                <b class="text-sm text-white">Amit (Master Barber)</b>
+                <span class="text-stone-400 text-[10px] mt-0.5">Keratin & Beard Specialist • 10+ Yrs</span>
+                <span class="text-[10px] text-amber-400 mt-1">📞 8930440260</span>
+              </label>
+
+              <label class="p-3 rounded-xl border border-[#422d21] bg-[#18110e] hover:border-amber-500/40 cursor-pointer flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-1.5">
+                  <input type="radio" name="stylist_choice" value="Rahul (Fade & Pompadour Expert)" class="accent-amber-500">
+                  <span class="text-[9px] bg-stone-800 text-stone-300 px-1.5 py-0.5 rounded">Fade Pro</span>
+                </div>
+                <b class="text-sm text-white">Rahul</b>
+                <span class="text-stone-400 text-[10px] mt-0.5">Skin Fades & Styling</span>
+              </label>
+
+              <label class="p-3 rounded-xl border border-[#422d21] bg-[#18110e] hover:border-amber-500/40 cursor-pointer flex flex-col justify-between">
+                <div class="flex items-center justify-between mb-1.5">
+                  <input type="radio" name="stylist_choice" value="Vikram (Spa & Massage Expert)" class="accent-amber-500">
+                  <span class="text-[9px] bg-stone-800 text-stone-300 px-1.5 py-0.5 rounded">Spa Expert</span>
+                </div>
+                <b class="text-sm text-white">Vikram</b>
+                <span class="text-stone-400 text-[10px] mt-0.5">Beard Spa & Head Champi</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Step 2: Date & Free Slot Selection with Overlap Protection -->
+          <div class="vintage-card rounded-2xl p-5 sm:p-6 border border-[#422d21]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-3 border-b border-[#422d21] gap-2">
+              <h3 class="font-serif-vintage text-base font-bold text-amber-100 flex items-center gap-2">
+                <span>📅</span> Step 2: Choose Date & View Free Time Slots
+              </h3>
+              <!-- Slot Counter & Filter -->
+              <div class="flex items-center gap-2">
+                <div id="free-slots-counter" class="text-xs bg-[#18110e] px-2.5 py-1 rounded-lg border border-[#422d21]"></div>
+                <button type="button" id="toggle-free-slots-btn" onclick="toggleShowOnlyFreeSlots()" class="text-xs px-3 py-1.5 rounded-lg bg-[#251b14] text-stone-300 border border-[#422d21] hover:text-white transition">
+                  Show Free Slots Only
+                </button>
+              </div>
+            </div>
+            
+            <!-- Dates Selector -->
+            <label class="block text-xs text-amber-300 font-semibold mb-2">Select Appointment Day:</label>
+            <div id="date-slots-container" class="flex gap-2 overflow-x-auto pb-2 mb-4"></div>
+
+            <!-- Slots Visual Legend -->
+            <div class="flex items-center gap-4 text-[11px] mb-2 text-stone-400">
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 🟢 Free Slot</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 🟡 Your Pick</span>
+              <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-600"></span> 🔴 Occupied (Blocked)</span>
+            </div>
+
+            <!-- Time Slots Grid -->
+            <div id="time-slots-container" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2"></div>
+
+            <!-- CONFIRMED SHOP ARRIVAL DETAILS CALLOUT -->
+            <div class="mt-4 p-4 rounded-xl bg-amber-950/70 border border-amber-600/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <div class="space-y-0.5">
+                <span class="text-amber-400 font-bold uppercase tracking-wider text-[11px]">⏰ Confirmed Arrival Time Instructions:</span>
+                <p id="preview-arrival-notice" class="text-amber-100 leading-snug">
+                  Please arrive at <b>Amit's Barber Shop</b> exactly <b>10 minutes before 04:30 PM</b>.
+                </p>
+              </div>
+              <div class="bg-amber-500 text-stone-950 px-3.5 py-1.5 rounded-lg font-black text-xs whitespace-nowrap shadow">
+                <span id="preview-arrival-time">Today at 04:30 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Customer Details Form -->
+          <div class="vintage-card rounded-2xl p-5 sm:p-6 border border-[#422d21]">
+            <h3 class="font-serif-vintage text-base font-bold text-amber-100 flex items-center gap-2 mb-3">
+              <span>👤</span> Step 3: Customer Information
+            </h3>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <label for="cust-name" class="block text-stone-300 font-medium mb-1">
+                  Customer Full Name <span class="text-amber-400">*</span>
+                </label>
+                <!-- Default example name pre-filled as Amit as requested -->
+                <input type="text" id="cust-name" required value="Amit" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-3 text-white focus:border-amber-500 focus:outline-none transition" placeholder="e.g. Amit">
+                <span class="text-[10px] text-amber-300/70 mt-1 block">Default example: <b>Amit</b></span>
+              </div>
+
+              <div>
+                <label for="cust-phone" class="block text-stone-300 font-medium mb-1">
+                  Mobile Number (Calling & WhatsApp) <span class="text-amber-400">*</span>
+                </label>
+                <input type="tel" id="cust-phone" required value="8930440260" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-3 text-white focus:border-amber-500 focus:outline-none transition" placeholder="e.g. 8930440260">
+                <span class="text-[10px] text-stone-400 mt-1 block">Arrival alert & receipt sent here</span>
+              </div>
+
+              <div>
+                <label for="cust-email" class="block text-stone-300 font-medium mb-1">
+                  Customer UPI ID or Email (Optional)
+                </label>
+                <input type="text" id="cust-email" value="amitkumargazipuria@oksbi" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-3 text-white focus:border-amber-500 focus:outline-none transition" placeholder="e.g. amitkumargazipuria@oksbi">
+              </div>
+
+              <div>
+                <label for="cust-notes" class="block text-stone-300 font-medium mb-1">
+                  Hair / Beard Preferences or Custom Requests
+                </label>
+                <input type="text" id="cust-notes" value="Skin fade with scissor top & beard hot towel smooth" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-3 text-white focus:border-amber-500 focus:outline-none transition" placeholder="e.g. Low fade, light beard trim, skin sensitive">
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Payment Options (Online UPI & Offline Cash) -->
+          <div class="vintage-card rounded-2xl p-5 sm:p-6 border border-[#422d21]">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-serif-vintage text-base font-bold text-amber-100 flex items-center gap-2">
+                <span>💳</span> Step 4: Choose Payment Method
+              </h3>
+              <span class="text-xs bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded font-bold">
+                Online & Offline Cash Supported
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              
+              <!-- Option A: Offline Cash -->
+              <label class="p-4 rounded-xl border border-amber-700/50 bg-[#251b14] cursor-pointer hover:border-amber-500 transition block relative">
+                <div class="flex items-start gap-3">
+                  <input type="radio" name="payment_choice" value="offline_cash" checked class="accent-amber-500 mt-1 w-4 h-4">
+                  <div>
+                    <span class="text-sm font-bold text-amber-100 block">
+                      💵 Pay Cash at Salon Counter (Offline)
+                    </span>
+                    <p class="text-[11px] text-stone-400 mt-1 leading-snug">
+                      Pay in cash or swipe directly when you arrive at our salon shop for your appointment.
+                    </p>
+                    <span class="inline-block mt-2 text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-semibold">
+                      Zero Advance Needed
+                    </span>
+                  </div>
+                </div>
+              </label>
+
+              <!-- Option B: Online UPI & Cards -->
+              <label class="p-4 rounded-xl border border-emerald-600/50 bg-[#16221a] cursor-pointer hover:border-emerald-400 transition block relative">
+                <div class="flex items-start gap-3">
+                  <input type="radio" name="payment_choice" value="online_all" class="accent-emerald-500 mt-1 w-4 h-4">
+                  <div>
+                    <span class="text-sm font-bold text-emerald-200 block">
+                      ⚡ Online Payment (UPI QR & All Apps)
+                    </span>
+                    <p class="text-[11px] text-stone-300 mt-1 leading-snug">
+                      Instant scan & pay to UPI: <b class="text-white">amitkumargazipuria@oksbi</b> (GPay, PhonePe, Paytm, Cards).
+                    </p>
+                    <div class="flex items-center gap-1.5 mt-2 text-[10px] font-bold text-emerald-400">
+                      <span>✓ GPay</span>
+                      <span>✓ PhonePe</span>
+                      <span>✓ Paytm</span>
+                      <span>✓ Cards</span>
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Order Summary Sticky Card (4 Columns) -->
+        <div class="lg:col-span-4 sticky top-24 space-y-4">
+          <div class="vintage-card rounded-2xl p-5 sm:p-6 border-2 border-amber-600/40 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-[#422d21] pb-3 mb-4">
+              <h3 class="font-serif-vintage text-base font-bold text-amber-200 flex items-center gap-2">
+                <span>🧾</span> Booking Summary
+              </h3>
+              <span id="selected-services-count" class="text-xs font-bold text-amber-400 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-700/50">
+                2 Selected
+              </span>
+            </div>
+
+            <ul id="selected-services-list" class="space-y-2 mb-4 max-h-56 overflow-y-auto pr-1"></ul>
+
+            <div class="border-t border-[#422d21] pt-3 space-y-2 text-xs">
+              <div class="flex justify-between text-stone-400">
+                <span>Estimated Duration:</span>
+                <span id="selected-total-duration" class="font-bold text-amber-300">55 min</span>
+              </div>
+              <div class="flex justify-between items-baseline pt-1">
+                <span class="text-sm font-bold text-white">Grand Total:</span>
+                <span id="selected-total-price" class="text-2xl font-black text-amber-400 font-serif-vintage">₹270</span>
+              </div>
+            </div>
+
+            <div class="pt-4">
+              <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-stone-950 font-black text-sm uppercase tracking-wide shadow-xl shadow-amber-600/30 transition-all duration-200 hover:scale-[1.02] flex items-center justify-center gap-2">
+                <span>CONFIRM BOOKING & TIME</span> &rarr;
+              </button>
+            </div>
+
+            <div class="mt-3 text-center">
+              <p class="text-[10px] text-stone-400">
+                🔒 Prevents overlapping. Your chair is locked instantly!
+              </p>
+            </div>
+          </div>
+
+          <!-- Developer & UPI Card -->
+          <div class="bg-[#1f1611] rounded-2xl p-4 border border-[#422d21] text-xs space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-amber-400 font-bold">UPI Payment ID</span>
+              <button onclick="paymentManager.copyUpiId()" class="text-[10px] bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-2 py-0.5 rounded">Copy</button>
+            </div>
+            <p class="font-mono text-white text-xs bg-[#140e0a] p-2 rounded border border-[#3b281d] break-all select-all">
+              amitkumargazipuria@oksbi
+            </p>
+            <p class="text-stone-400 text-[11px]">
+              Developer: <b>Amit</b> • Mobile: <a href="tel:8930440260" class="text-amber-300 font-bold underline">8930440260</a>
+            </p>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- UPI QR & ONLINE PAYMENT SHOWCASE SECTION -->
+  <!-- ========================================================================= -->
+  <section id="upi-qr-section" class="py-12 bg-gradient-to-b from-[#120c09] to-[#1a120d] border-b border-[#3b281d]">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="vintage-card rounded-3xl p-6 md:p-8 border-2 border-amber-600/40">
+        
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          
+          <div class="md:col-span-7 space-y-4">
+            <span class="text-xs bg-emerald-950 text-emerald-300 border border-emerald-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider inline-block">
+              ⚡ Instant Cashless Payments
+            </span>
+            <h3 class="font-serif-vintage text-2xl md:text-3xl font-black text-white">
+              Official Salon UPI ID & QR Code
+            </h3>
+            <p class="text-stone-300 text-xs sm:text-sm leading-relaxed">
+              Pay using any UPI application installed on your phone. Whether it's <b>Google Pay</b>, <b>PhonePe</b>, <b>Paytm</b>, or <b>BHIM</b>, scan the QR code or send to our official VPA.
+            </p>
+
+            <div class="p-4 rounded-xl bg-[#170f0a] border border-[#422d21] space-y-2">
+              <span class="text-xs text-stone-400 block font-medium">Official Merchant UPI VPA:</span>
+              <div class="flex items-center justify-between gap-3 bg-[#0e0a07] p-3 rounded-lg border border-[#3b281d]">
+                <span class="font-mono text-amber-300 font-bold text-sm select-all">amitkumargazipuria@oksbi</span>
+                <button onclick="paymentManager.copyUpiId()" class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded text-xs transition">
+                  Copy UPI ID
+                </button>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-stone-400 pt-1">
+                <span>Beneficiary: <b>Amit Barber Shop</b></span>
+                <span>Bank: <b>State Bank of India (SBI)</b></span>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-1">
+              <a href="upi://pay?pa=amitkumargazipuria@oksbi&pn=Amit%20Barber%20Shop&cu=INR" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow flex items-center gap-2">
+                <span>📱 Open in UPI App</span>
+              </a>
+              <button onclick="openOnlinePaymentModal()" class="px-5 py-2.5 rounded-xl bg-[#251b14] hover:bg-[#322319] text-amber-200 border border-[#422d21] font-semibold text-xs">
+                View Full Payment Gateway
+              </button>
+            </div>
+          </div>
+
+          <!-- Real Scannable QR Box -->
+          <div class="md:col-span-5 text-center">
+            <div class="bg-white p-5 rounded-3xl inline-block shadow-2xl border-4 border-amber-600/60 max-w-xs mx-auto">
+              <div class="flex items-center justify-center gap-2 mb-2 border-b pb-2">
+                <span class="text-lg">💈</span>
+                <b class="text-stone-900 text-xs font-serif-vintage uppercase tracking-wide">Amit's Barber Shop</b>
+              </div>
+              <div id="section-qr-container" class="my-2"></div>
+              <p class="font-mono font-bold text-xs text-stone-900 mt-2 select-all">amitkumargazipuria@oksbi</p>
+              <p class="text-[10px] text-stone-600 uppercase font-semibold mt-0.5">Scan to Pay via Any UPI App</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- RATINGS & REVIEWS SECTION -->
+  <!-- ========================================================================= -->
+  <section id="reviews-section" class="py-12 max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <div class="lg:col-span-5 space-y-6">
+        <div class="vintage-card rounded-2xl p-6 border border-[#422d21]">
+          <span class="text-xs uppercase tracking-widest text-amber-400 font-bold block mb-1">Customer Reviews</span>
+          <h2 class="font-serif-vintage text-2xl font-bold text-amber-100">
+            Ratings & Feedback
+          </h2>
+
+          <div class="flex items-center gap-4 my-4 p-4 rounded-xl bg-[#18110e] border border-[#422d21]">
+            <div class="text-4xl font-black text-amber-400 font-serif-vintage" id="rating-stat-avg">
+              4.9
+            </div>
+            <div>
+              <div class="text-amber-400 text-base">★★★★★</div>
+              <p class="text-[11px] text-stone-400" id="rating-stat-count">Based on 450+ verified customer reviews</p>
+            </div>
+          </div>
+
+          <form id="review-submission-form" class="space-y-3 pt-2 text-xs">
+            <h4 class="font-bold text-amber-200 text-sm">Add Your Review:</h4>
+            
+            <div>
+              <span class="text-[11px] text-stone-400 block mb-1">Rating:</span>
+              <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1 select-none">
+                  <span class="star-picker-btn text-2xl text-amber-400 hover:scale-125 transition cursor-pointer" onclick="setReviewStar(1)">★</span>
+                  <span class="star-picker-btn text-2xl text-amber-400 hover:scale-125 transition cursor-pointer" onclick="setReviewStar(2)">★</span>
+                  <span class="star-picker-btn text-2xl text-amber-400 hover:scale-125 transition cursor-pointer" onclick="setReviewStar(3)">★</span>
+                  <span class="star-picker-btn text-2xl text-amber-400 hover:scale-125 transition cursor-pointer" onclick="setReviewStar(4)">★</span>
+                  <span class="star-picker-btn text-2xl text-amber-400 hover:scale-125 transition cursor-pointer" onclick="setReviewStar(5)">★</span>
+                </div>
+                <span id="star-rating-label" class="text-xs text-amber-300 font-semibold ml-2">5 Stars (Excellent)</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-stone-300 mb-1">Your Name</label>
+              <input type="text" id="rev-author" value="Amit" required class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+              <label class="block text-stone-300 mb-1">Service Experienced</label>
+              <select id="rev-service" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+                <option value="Keratin (Caretin) Smoothening Treatment">Keratin (Caretin) Smoothening Treatment</option>
+                <option value="Skin Fade & Razor Lineup">Skin Fade & Razor Lineup</option>
+                <option value="Hot Towel Beard Smoothening & Spa">Hot Towel Beard Smoothening & Spa</option>
+                <option value="Almond Oil Head Massage">Almond Oil Head Massage</option>
+                <option value="Ayurvedic D-Tan Face Pack">Ayurvedic D-Tan Face Pack</option>
+                <option value="Smart Grooming Combo">Smart Grooming Combo</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-stone-300 mb-1">Your Feedback</label>
+              <textarea id="rev-comment" rows="3" required placeholder="Write your haircut / grooming experience..." class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold text-xs uppercase tracking-wider transition">
+              Submit Review ⭐
+            </button>
+          </form>
+
+        </div>
+      </div>
+
+      <div class="lg:col-span-7">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-serif-vintage text-xl font-bold text-amber-100">
+            Recent Client Testimonials
+          </h3>
+          <span class="text-xs text-amber-400">Verified Saloon Visitors</span>
+        </div>
+
+        <div id="reviews-grid-container" class="space-y-4 max-h-[640px] overflow-y-auto pr-1"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- DEVELOPER DETAILS SECTION -->
+  <!-- ========================================================================= -->
+  <section id="developer-section" class="py-12 bg-gradient-to-r from-[#1b120c] via-[#241710] to-[#1b120c] border-y border-[#3b281d]">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="vintage-card rounded-3xl p-6 md:p-8 border-2 border-amber-600/40 relative overflow-hidden">
+        
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          
+          <div class="md:col-span-8 space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+              <span>👨‍💻 Official Developer & Founder</span>
+            </div>
+
+            <h3 class="font-serif-vintage text-2xl md:text-3xl font-black text-white">
+              Website Engineered by <span class="text-amber-400">Amit</span>
+            </h3>
+
+            <p class="text-stone-300 text-xs md:text-sm leading-relaxed max-w-2xl">
+              Equipped with smart slot overlap prevention, real-time booking, full UPI QR integration (<b>amitkumargazipuria@oksbi</b>), customized service and pricing controls, and customer feedback management.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2 text-xs">
+              <div class="flex items-center gap-2 bg-[#170f0a] px-3.5 py-2 rounded-xl border border-[#422d21]">
+                <span class="text-stone-400">Developer:</span>
+                <b class="text-white font-bold">Amit</b>
+              </div>
+
+              <div class="flex items-center gap-2 bg-[#170f0a] px-3.5 py-2 rounded-xl border border-[#422d21]">
+                <span class="text-stone-400">Mobile:</span>
+                <a href="tel:8930440260" class="text-amber-400 font-bold hover:underline">8930440260</a>
+              </div>
+
+              <div class="flex items-center gap-2 bg-[#170f0a] px-3.5 py-2 rounded-xl border border-[#422d21]">
+                <span class="text-stone-400">UPI:</span>
+                <span class="text-amber-300 font-mono font-bold">amitkumargazipuria@oksbi</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-4 flex flex-col gap-3">
+            <a href="tel:8930440260" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-center text-xs shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 transition">
+              <span>📞 Direct Call: 8930440260</span>
+            </a>
+
+            <a href="https://wa.me/918930440260?text=Hello%20Amit%2C%20I%20visited%20your%20Barber%20Salon%20website%20and%20would%20like%20to%20connect!" target="_blank" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-center text-xs shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition">
+              <span>💬 WhatsApp Chat with Amit</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER -->
+  <!-- ========================================================================= -->
+  <footer class="bg-[#0f0907] border-t border-[#3b281d] pt-12 pb-8 text-stone-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <div class="space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">💈</span>
+          <span class="font-cinzel text-base font-black text-amber-100">AMIT'S BARBERSHOP</span>
+        </div>
+        <p class="text-[11px] leading-relaxed text-stone-400">
+          Premier salon delivering master haircuts, beard smoothening, and keratin revitalizing therapy with timeless hospitality.
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-serif-vintage font-bold text-amber-200 text-sm">Services</h4>
+        <ul class="space-y-1 text-[11px]">
+          <li><a href="#services" class="hover:text-amber-400 transition">Skin Fade & Scissor Cut</a></li>
+          <li><a href="#services" class="hover:text-amber-400 transition">Hot Towel Beard Smoothening</a></li>
+          <li><a href="#services" class="hover:text-amber-400 transition">Keratin (Caretin) Treatment</a></li>
+          <li><a href="#services" class="hover:text-amber-400 transition">Ayurvedic D-Tan & Facial</a></li>
+          <li><a href="#services" class="hover:text-amber-400 transition">Pure Almond Champi</a></li>
+        </ul>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-serif-vintage font-bold text-amber-200 text-sm">Shop Hours & Location</h4>
+        <p class="text-[11px] leading-relaxed">
+          📍 Main Market Road, Near Central Clock Tower<br>
+          ⏰ Monday – Sunday: 9:00 AM – 9:30 PM<br>
+          📞 Call: <a href="tel:8930440260" class="text-amber-400 font-bold">8930440260</a>
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <h4 class="font-serif-vintage font-bold text-amber-200 text-sm">Payment & Developer</h4>
+        <p class="text-[11px] leading-relaxed">
+          Official UPI: <b class="text-white">amitkumargazipuria@oksbi</b><br>
+          Developer: <b class="text-white">Amit</b> (8930440260)<br>
+          Zero Overlap Booking 2.0
+        </p>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 pt-6 border-t border-[#2a1d16] flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-stone-500">
+      <p>© 2026 Amit's Vintage Barber Shop. All rights reserved.</p>
+      <p>Designed and Built by <b class="text-amber-400">Amit</b> (8930440260)</p>
+    </div>
+  </footer>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 1: CUSTOMIZE HAIRCUT & SERVICE PRICING MODAL -->
+  <!-- ========================================================================= -->
+  <div id="custom-service-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="vintage-card max-w-lg w-full rounded-2xl border-2 border-amber-600/60 p-6 space-y-4 shadow-2xl relative">
+      <div class="flex items-center justify-between border-b border-[#422d21] pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">✂️</span>
+          <div>
+            <h3 class="font-serif-vintage text-lg font-bold text-white">Add Custom Haircut / Service</h3>
+            <p class="text-[11px] text-amber-200/70">Customize service name, price & duration</p>
+          </div>
+        </div>
+        <button onclick="closeCustomServiceModal()" class="text-stone-400 hover:text-white text-lg font-bold p-1">✕</button>
+      </div>
+
+      <form id="custom-service-form" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-stone-300 font-medium mb-1">Service Name (English) *</label>
+          <input type="text" id="custom-service-name" required placeholder="e.g. Skin Fade with Scissor Texture" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div>
+          <label class="block text-stone-300 font-medium mb-1">Service Name (Hindi / Optional)</label>
+          <input type="text" id="custom-service-name-hi" placeholder="e.g. फेड कटिंग + कैंची सेटिंग" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-stone-300 font-medium mb-1">Category *</label>
+            <select id="custom-service-cat" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+              <option value="Hair Cutting & Styling">Hair Cutting & Styling</option>
+              <option value="Beard Grooming & Shaving">Beard Grooming & Shaving</option>
+              <option value="Keratin (Caretin) & Hair Treatments">Keratin (Caretin) & Hair Treatments</option>
+              <option value="Facials, Clean-ups & D-Tan">Facials, Clean-ups & D-Tan</option>
+              <option value="Head Champi & Relaxation">Head Champi & Relaxation</option>
+              <option value="Money-Saver Combos">Money-Saver Combos</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-stone-300 font-medium mb-1">Custom Price in ₹ *</label>
+            <input type="number" id="custom-service-price" required placeholder="e.g. 150" min="10" step="5" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-stone-300 font-medium mb-1">Duration (Minutes)</label>
+            <select id="custom-service-duration" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+              <option value="15">15 min</option>
+              <option value="20">20 min</option>
+              <option value="25">25 min</option>
+              <option value="30" selected>30 min</option>
+              <option value="45">45 min</option>
+              <option value="60">60 min</option>
+              <option value="90">90 min</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-stone-300 font-medium mb-1">Tag (Optional)</label>
+            <input type="text" id="custom-service-tag" placeholder="e.g. SPECIAL, TRENDY" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-stone-300 font-medium mb-1">Description / Custom Instructions</label>
+          <input type="text" id="custom-service-desc" placeholder="e.g. Custom tailored fade with styling wax" class="w-full bg-[#18110e] border border-[#422d21] rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeCustomServiceModal()" class="px-4 py-2 bg-stone-800 text-stone-300 rounded-xl">Cancel</button>
+          <button type="submit" class="px-5 py-2 bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold rounded-xl shadow">Save & Add to Menu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 2: ONLINE PAYMENT GATEWAY WITH REAL QR & UPI ID -->
+  <!-- ========================================================================= -->
+  <div id="online-payment-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="vintage-card max-w-lg w-full rounded-2xl border-2 border-amber-600/60 p-6 space-y-4 shadow-2xl relative">
+      
+      <div class="flex items-center justify-between border-b border-[#422d21] pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">💳</span>
+          <div>
+            <h3 class="font-serif-vintage text-lg font-bold text-white">Online Payment Gateway</h3>
+            <p class="text-[11px] text-amber-200/70">Scan & Pay to: amitkumargazipuria@oksbi</p>
+          </div>
+        </div>
+        <button onclick="closeOnlinePaymentModal()" class="text-stone-400 hover:text-white text-lg font-bold p-1">✕</button>
+      </div>
+
+      <!-- Amount to Pay -->
+      <div class="bg-[#18110e] p-3 rounded-xl border border-[#422d21] flex items-center justify-between text-xs">
+        <span class="text-stone-300">Total Payable Amount:</span>
+        <span id="modal-pay-amount" class="text-2xl font-black text-amber-400 font-serif-vintage">₹270</span>
+      </div>
+
+      <!-- QR Code Container -->
+      <div class="text-center py-1">
+        <div class="bg-white p-3 rounded-2xl inline-block border-2 border-amber-500 shadow-md">
+          <div id="modal-qr-container"></div>
+        </div>
+        <div class="mt-2 flex items-center justify-center gap-2">
+          <span id="modal-upi-id-text" class="font-mono text-xs text-amber-300 font-bold select-all">amitkumargazipuria@oksbi</span>
+          <button onclick="paymentManager.copyUpiId()" class="text-[10px] bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold px-2 py-0.5 rounded">
+            Copy
+          </button>
+        </div>
+      </div>
+
+      <!-- Instant Pay Buttons for Mobile -->
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <a id="btn-pay-gpay" href="#" class="p-2.5 rounded-xl bg-[#0F9D58]/20 border border-[#0F9D58]/50 hover:bg-[#0F9D58]/30 text-emerald-300 font-bold flex items-center justify-center gap-1.5 transition">
+          <span>🟢 Google Pay (GPay)</span>
+        </a>
+
+        <a id="btn-pay-phonepe" href="#" class="p-2.5 rounded-xl bg-[#5F259F]/20 border border-[#5F259F]/50 hover:bg-[#5F259F]/30 text-purple-300 font-bold flex items-center justify-center gap-1.5 transition">
+          <span>🟣 PhonePe</span>
+        </a>
+
+        <a id="btn-pay-paytm" href="#" class="p-2.5 rounded-xl bg-[#00BAF2]/20 border border-[#00BAF2]/50 hover:bg-[#00BAF2]/30 text-sky-300 font-bold flex items-center justify-center gap-1.5 transition">
+          <span>🔵 Paytm UPI</span>
+        </a>
+
+        <button onclick="simulatePlatformPay('Cards & Net Banking')" class="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500/50 hover:bg-amber-500/30 text-amber-300 font-bold flex items-center justify-center gap-1.5 transition">
+          <span>💳 Debit/Credit Card</span>
+        </button>
+      </div>
+
+      <!-- Enter UTR Ref Number for verification -->
+      <div class="p-3 rounded-xl bg-[#140e0a] border border-[#3b281d] text-xs space-y-2">
+        <span class="text-stone-300 font-medium block">Already Scanned & Paid? Enter 12-digit UTR:</span>
+        <div class="flex gap-2">
+          <input type="text" id="input-utr-number" placeholder="e.g. 412389472910" class="flex-1 bg-[#1c140f] border border-[#422d21] rounded-lg p-2 text-white text-xs">
+          <button onclick="handleUtrSubmit()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs">
+            Confirm Pay
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-[#422d21] flex justify-between items-center text-[11px] text-stone-500">
+        <span>Beneficiary: Amit (8930440260)</span>
+        <button onclick="closeOnlinePaymentModal()" class="text-stone-400 hover:text-white underline">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 3: CONFIRMATION RECEIPT & TIME DETAILS MODAL -->
+  <!-- ========================================================================= -->
+  <div id="receipt-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="max-w-xl w-full my-8">
+      <div id="receipt-content-container"></div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- MODAL 4: STAFF / SALON OWNER (AMIT) BOOKING & OVERLAP MANAGER -->
+  <!-- ========================================================================= -->
+  <div id="staff-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="vintage-card max-w-4xl w-full rounded-2xl border-2 border-amber-600/60 p-6 space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-[#422d21] pb-3">
+        <div>
+          <h3 class="font-serif-vintage text-xl font-bold text-amber-100 flex items-center gap-2">
+            <span>📋</span> Salon Appointments & Overlap Management Board
+          </h3>
+          <p class="text-xs text-stone-400">Owner & Developer View (Amit • 8930440260 • UPI: amitkumargazipuria@oksbi)</p>
+        </div>
+        <button onclick="closeStaffBookingsModal()" class="text-stone-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <div class="overflow-x-auto flex-1">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-[#422d21] text-[11px] uppercase tracking-wider text-amber-400">
+              <th class="py-2 px-2">Token</th>
+              <th class="py-2 px-2">Customer</th>
+              <th class="py-2 px-2">Date & Time</th>
+              <th class="py-2 px-2">Services</th>
+              <th class="py-2 px-2">Amount</th>
+              <th class="py-2 px-2">Status</th>
+              <th class="py-2 px-2">Action</th>
+            </tr>
+          </thead>
+          <tbody id="staff-bookings-table-body"></tbody>
+        </table>
+      </div>
+
+      <div class="pt-3 border-t border-[#422d21] flex justify-end">
+        <button onclick="closeStaffBookingsModal()" class="px-5 py-2 bg-stone-800 hover:bg-stone-700 text-white rounded-xl text-xs font-semibold">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Generator Library -->
+  <script src="js/qrcode.min.js"></script>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/services.js"></script>
+  <script src="js/reviews.js"></script>
+  <script src="js/payments.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Initialize Hero & Section QR Codes after load -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => {
+        paymentManager.renderQrCode("hero-qr-container", 150, "HERO");
+        paymentManager.renderQrCode("section-qr-container", 299, "MENU");
+      }, 300);
+    });
+  </script>
+
+</body>
+</html>

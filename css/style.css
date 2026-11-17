@@ -1,0 +1,153 @@
+/* Amit's Vintage Barber Shop & Grooming Lounge Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --mahogany-dark: #120c09;
+  --mahogany-base: #1c140f;
+  --mahogany-card: #251b14;
+  --mahogany-border: #422d21;
+  --gold-accent: #d4af37;
+  --gold-light: #f3e5ab;
+  --parchment: #fdfbf7;
+  --cream: #f4ede4;
+  --barber-red: #c92a2a;
+  --barber-blue: #1864ab;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--mahogany-dark);
+  color: #f1ede8;
+  overflow-x: hidden;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-serif-vintage {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Classic Barber Pole Animated Stripe */
+.barber-pole-animated {
+  background: repeating-linear-gradient(
+    -45deg,
+    #b91c1c,
+    #b91c1c 20px,
+    #ffffff 20px,
+    #ffffff 40px,
+    #1d4ed8 40px,
+    #1d4ed8 60px,
+    #ffffff 60px,
+    #ffffff 80px
+  );
+  background-size: 200% 200%;
+  animation: barberPoleScroll 4s linear infinite;
+}
+
+@keyframes barberPoleScroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 113px 0;
+  }
+}
+
+/* Vintage Gold Border & Card Styling */
+.vintage-card {
+  background: linear-gradient(145deg, #241913, #1a120d);
+  border: 1px solid var(--mahogany-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(212, 175, 55, 0.15);
+}
+
+.vintage-card:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.vintage-gold-border {
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.vintage-ornament {
+  background-image: radial-gradient(circle, #d4af37 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* Perforated Vintage Appointment Receipt Ticket */
+.ticket-receipt {
+  position: relative;
+  background: #fdfaf5;
+  color: #261910;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+.ticket-receipt::before,
+.ticket-receipt::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-color: var(--mahogany-dark);
+  border-radius: 50%;
+  top: 65%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.ticket-receipt::before {
+  left: -12px;
+}
+
+.ticket-receipt::after {
+  right: -12px;
+}
+
+.ticket-divider {
+  border-top: 2px dashed #d1c4b2;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #140e0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #422d21;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* Print Styles for Appointment Slips */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-receipt, #printable-receipt * {
+    visibility: visible;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    background: white !important;
+    color: black !important;
+  }
+}
