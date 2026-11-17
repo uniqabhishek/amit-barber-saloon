@@ -112,6 +112,15 @@ body {
   position: relative;
 }
 
+/* Custom QR Code SVG styling */
+#hero-qr-container svg,
+#section-qr-container svg,
+#modal-qr-container svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

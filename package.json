@@ -15,5 +15,8 @@
     "appointment-booking"
   ],
   "author": "Amit (8930440260)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "qrcode": "^1.5.4"
+  }
 }
