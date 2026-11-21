@@ -1,4 +1,4 @@
-// Upgraded Application Controller for Amit's Vintage Barber Shop
+// Upgraded Application Controller for Barber Salon Shop
 // Featuring:
 // 1. Overlap Prevention & Free Timing vs Booked Slot Manager
 // 2. Custom Haircut & Pricing Customization
@@ -578,7 +578,7 @@ function updateAppointmentPreview() {
   
   if (arrivalNoticeEl) {
     arrivalNoticeEl.innerHTML = `
-      📍 <b>Confirmed Shop Arrival:</b> Please reach <b>Amit's Barber Shop</b> exactly <b>10 minutes before ${slot}</b>.
+      📍 <b>Confirmed Shop Arrival:</b> Please reach <b>Barber Salon Shop</b> exactly <b>10 minutes before ${slot}</b>.
     `;
   }
 }
@@ -772,7 +772,7 @@ function renderReceiptModal(record) {
           💈
         </div>
         <h3 class="font-serif-vintage text-2xl font-black tracking-tight text-stone-900">
-          AMIT'S VINTAGE BARBERSHOP
+          BARBER SALON SHOP
         </h3>
         <p class="text-[11px] text-stone-600 uppercase tracking-widest font-semibold">
           Luxury Hair, Beard Grooming & Keratin Spa
@@ -854,7 +854,7 @@ function renderReceiptModal(record) {
         🖨️ Print / Save Appointment Slip
       </button>
 
-      <a href="https://wa.me/918930440260?text=${encodeURIComponent(`Hello Amit, I have booked a slot at your Barber Shop!\nToken: ${record.bookingId}\nName: ${record.customerName}\nTime: ${record.date} at ${record.time}\nTotal: ₹${record.totalAmount}\nUPI ID: amitkumargazipuria@oksbi`)}" target="_blank" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow">
+      <a href="https://wa.me/918930440260?text=${encodeURIComponent(`Hello Amit, I have booked a slot at Barber Salon Shop!\nToken: ${record.bookingId}\nName: ${record.customerName}\nTime: ${record.date} at ${record.time}\nTotal: ₹${record.totalAmount}\nUPI ID: amitkumargazipuria@oksbi`)}" target="_blank" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow">
         📱 WhatsApp Confirmation
       </a>
 
@@ -1210,7 +1210,7 @@ function renderOwnerDashboard() {
                 <a href="tel:${cleanPhone}" class="text-[11px] text-amber-400 hover:underline flex items-center gap-0.5 font-bold">
                   📞 ${cleanPhone}
                 </a>
-                <a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Hello ${b.customerName}, regarding your appointment at Amit's Barber Shop on ${b.date} at ${b.time}`)}" target="_blank" class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-700/60 px-1.5 py-0.2 rounded font-bold hover:bg-emerald-900">
+                <a href="https://wa.me/91${cleanPhone}?text=${encodeURIComponent(`Hello ${b.customerName}, regarding your appointment at Barber Salon Shop on ${b.date} at ${b.time}`)}" target="_blank" class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-700/60 px-1.5 py-0.2 rounded font-bold hover:bg-emerald-900">
                   💬 WhatsApp
                 </a>
               </div>
@@ -1436,7 +1436,7 @@ function handleCustomerLookupSubmit(e) {
         </div>
         <div class="p-2.5 bg-amber-500/10 rounded-lg border border-amber-500/30 text-amber-200">
           ⏰ <b>Confirmed Arrival Time:</b> ${b.date} at <b>${b.time}</b><br>
-          <span class="text-[11px] text-stone-300">Please arrive 10 min early at Amit's Barber Shop!</span>
+          <span class="text-[11px] text-stone-300">Please arrive 10 min early at Barber Salon Shop!</span>
         </div>
         <div class="flex justify-between items-center text-stone-300 text-[11px]">
           <span>Services: ${(b.services || []).map(s => s.name).join(", ")}</span>

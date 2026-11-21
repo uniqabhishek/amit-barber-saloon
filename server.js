@@ -1,4 +1,4 @@
-// High-performance static web server for Amit's Vintage Barber Shop
+// High-performance static web server for Barber Salon Shop
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -83,7 +83,7 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, '0.0.0.0', () => {
   const localIp = getLocalIp();
   console.log(`====================================================`);
-  console.log(`💈 AMIT'S VINTAGE BARBERSHOP WEBSITE IS ONLINE! 💈`);
+  console.log(`💈 BARBER SALON SHOP WEBSITE IS ONLINE! 💈`);
   console.log(`====================================================`);
   console.log(`Developer: Amit (Mobile: 8930440260)`);
   console.log(`Local Access:   http://localhost:${PORT}`);

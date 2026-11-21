@@ -1,4 +1,4 @@
-// Rock-Solid Production-Grade UPI Payment Processor for Amit's Barber Shop
+// Rock-Solid Production-Grade UPI Payment Processor for Barber Salon Shop
 // Supports 100% genuine ISO/IEC 18004 compliant QR Code for Google Pay, PhonePe, Paytm, BHIM
 // Official Merchant UPI VPA: amitkumargazipuria@oksbi
 

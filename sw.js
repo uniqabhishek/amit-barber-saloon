@@ -1,5 +1,5 @@
-// Service Worker for Amit's Vintage Barber Shop
-const CACHE_NAME = 'amit-barber-v1.0';
+// Service Worker for Barber Salon Shop
+const CACHE_NAME = 'barber-salon-v1.1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

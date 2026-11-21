@@ -1,4 +1,4 @@
-// Comprehensive Services Catalog for Amit's Vintage Barber Shop
+// Comprehensive Services Catalog for Barber Salon Shop
 // Includes all known services of local salons with bilingual Hindi & English names,
 // plus support for custom haircuts, custom services, and pricing customization.
 

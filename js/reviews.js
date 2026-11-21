@@ -1,4 +1,4 @@
-// Customer Reviews and Ratings System for Amit's Vintage Barber Shop
+// Customer Reviews and Ratings System for Barber Salon Shop
 const INITIAL_REVIEWS = [
   {
     id: "rev-1",
