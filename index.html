@@ -46,15 +46,20 @@
         </div>
       </div>
 
-      <!-- Developer & Salon Owner View -->
-      <div class="flex items-center gap-3">
-        <div class="flex items-center gap-1.5 text-stone-300">
-          <span>Developer & Stylist:</span>
-          <b class="text-white">Amit</b>
-          <span class="text-stone-600">•</span>
-          <a href="tel:8930440260" class="text-amber-400 font-bold hover:underline flex items-center gap-1">
-            📞 8930440260
-          </a>
+      <!-- Developer, Co-Dev & Salon Owner View -->
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="flex flex-wrap items-center gap-2 text-stone-300">
+          <div class="flex items-center gap-1">
+            <span>Dev:</span>
+            <b class="text-white">Amit</b>
+            <a href="tel:8930440260" class="text-amber-400 font-bold hover:underline">📞 8930440260</a>
+          </div>
+          <span class="text-stone-600 hidden sm:inline">•</span>
+          <div class="flex items-center gap-1">
+            <span class="text-emerald-400 font-semibold">Co-Dev:</span>
+            <b class="text-white">Abhishek</b>
+            <a href="tel:9499268312" class="text-emerald-400 font-bold hover:underline">📞 9499268312</a>
+          </div>
         </div>
         <button onclick="switchPortal('owner')" class="text-[11px] bg-red-950 text-red-200 border border-red-700/60 hover:bg-red-900 px-3 py-1 rounded-full font-bold transition flex items-center gap-1.5 shadow">
           <span>👑 Owner Portal</span>
@@ -92,7 +97,7 @@
         <a href="#booking-section" class="hover:text-amber-400 transition">Real-Time Slots</a>
         <a href="#upi-qr-section" class="hover:text-amber-400 transition text-emerald-400">UPI QR & Pay</a>
         <a href="#reviews-section" class="hover:text-amber-400 transition">Reviews (4.9 ★)</a>
-        <a href="#developer-section" class="hover:text-amber-400 transition text-amber-300">Developer Amit</a>
+        <a href="#developer-section" class="hover:text-amber-400 transition text-amber-300">Developers (Amit & Abhishek)</a>
       </div>
 
       <!-- Action Buttons & Portal Switcher -->
@@ -182,7 +187,7 @@
             </a>
 
             <!-- Android APK Download Button -->
-            <a href="https://github.com/uniqabhishek/amit-barber-saloon/releases/download/v1.0.0/AmitBarberShop-v1.0.0.apk" class="px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm shadow-xl shadow-emerald-600/30 transition flex items-center gap-2">
+            <a href="https://github.com/uniqabhishek/barber-salon-shop/releases/download/v1.0.0/AmitBarberShop-v1.0.0.apk" class="px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm shadow-xl shadow-emerald-600/30 transition flex items-center gap-2">
               <span>🤖 Download Android APK</span>
             </a>
 
@@ -562,8 +567,8 @@
             <p class="font-mono text-white text-xs bg-[#140e0a] p-2 rounded border border-[#3b281d] break-all select-all">
               amitkumargazipuria@oksbi
             </p>
-            <p class="text-stone-400 text-[11px]">
-              Developer: <b>Amit</b> • Mobile: <a href="tel:8930440260" class="text-amber-300 font-bold underline">8930440260</a>
+            <p class="text-stone-400 text-[11px] leading-relaxed">
+              Dev: <b>Amit</b> (<a href="tel:8930440260" class="text-amber-300 font-bold underline">8930440260</a>) • Co-Dev: <b>Abhishek</b> (<a href="tel:9499268312" class="text-emerald-300 font-bold underline">9499268312</a>)
             </p>
           </div>
         </div>
@@ -753,50 +758,75 @@
   <!-- ========================================================================= -->
   <section id="developer-section" class="py-12 bg-gradient-to-r from-[#1b120c] via-[#241710] to-[#1b120c] border-y border-[#3b281d]">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="vintage-card rounded-3xl p-6 md:p-8 border-2 border-amber-600/40 relative overflow-hidden">
+      <div class="vintage-card rounded-3xl p-6 md:p-8 border-2 border-amber-600/40 relative overflow-hidden space-y-6">
         
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-          
-          <div class="md:col-span-8 space-y-3">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#422d21] pb-4">
+          <div class="space-y-1">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
-              <span>👨‍💻 Official Developer & Founder</span>
+              <span>👨‍💻 Official Engineering & Development Team</span>
             </div>
-
             <h3 class="font-serif-vintage text-2xl md:text-3xl font-black text-white">
-              Website Engineered by <span class="text-amber-400">Amit</span>
+              Website Engineered by <span class="text-amber-400">Amit</span> & Co-Dev <span class="text-emerald-400">Abhishek</span>
             </h3>
-
             <p class="text-stone-300 text-xs md:text-sm leading-relaxed max-w-2xl">
-              Equipped with smart slot overlap prevention, real-time booking, full UPI QR integration (<b>amitkumargazipuria@oksbi</b>), customized service and pricing controls, and customer feedback management.
+              Equipped with smart slot overlap prevention, real-time booking, full UPI QR integration (<b>amitkumargazipuria@oksbi</b>), customized service and pricing controls, and dual Customer & Owner portals.
             </p>
+          </div>
+        </div>
 
-            <div class="flex flex-wrap items-center gap-3 pt-2 text-xs">
-              <div class="flex items-center gap-2 bg-[#170f0a] px-3.5 py-2 rounded-xl border border-[#422d21]">
-                <span class="text-stone-400">Developer:</span>
-                <b class="text-white font-bold">Amit</b>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Lead Dev Card: Amit -->
+          <div class="bg-[#18100b] p-5 rounded-2xl border border-amber-600/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-[10px] uppercase font-bold text-amber-400 tracking-wider">Lead Developer & Master Stylist</span>
+                <h4 class="text-white font-bold text-lg">Amit</h4>
               </div>
+              <span class="text-2xl">💈</span>
+            </div>
 
-              <div class="flex items-center gap-2 bg-[#170f0a] px-3.5 py-2 rounded-xl border border-[#422d21]">
-                <span class="text-stone-400">Mobile:</span>
-                <a href="tel:8930440260" class="text-amber-400 font-bold hover:underline">8930440260</a>
-              </div>
+            <div class="space-y-1 text-xs text-stone-300">
+              <p>📞 Phone: <a href="tel:8930440260" class="text-amber-400 font-bold hover:underline">8930440260</a></p>
+              <p>💳 UPI ID: <span class="font-mono text-emerald-400 font-bold">amitkumargazipuria@oksbi</span></p>
+            </div>
 
-              <div class="flex items-center gap-2 bg-[#170f0a] px-3.5 py-2 rounded-xl border border-[#422d21]">
-                <span class="text-stone-400">UPI:</span>
-                <span class="text-amber-300 font-mono font-bold">amitkumargazipuria@oksbi</span>
-              </div>
+            <div class="grid grid-cols-2 gap-2 pt-1 text-xs">
+              <a href="tel:8930440260" class="py-2.5 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-center shadow flex items-center justify-center gap-1.5 transition">
+                <span>📞 Call Amit</span>
+              </a>
+              <a href="https://wa.me/918930440260?text=Hello%20Amit%2C%20I%20visited%20the%20Barber%20Salon%20Shop%20website%20and%20would%20like%20to%20connect!" target="_blank" class="py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-center shadow flex items-center justify-center gap-1.5 transition">
+                <span>💬 WhatsApp</span>
+              </a>
             </div>
           </div>
 
-          <div class="md:col-span-4 flex flex-col gap-3">
-            <a href="tel:8930440260" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold rounded-xl text-center text-xs shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 transition">
-              <span>📞 Direct Call: 8930440260</span>
-            </a>
+          <!-- Co-Dev Card: Abhishek -->
+          <div class="bg-[#18100b] p-5 rounded-2xl border border-emerald-600/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Co-Developer</span>
+                <h4 class="text-white font-bold text-lg">Abhishek</h4>
+              </div>
+              <span class="text-2xl">💻</span>
+            </div>
 
-            <a href="https://wa.me/918930440260?text=Hello%20Amit%2C%20I%20visited%20your%20Barber%20Salon%20website%20and%20would%20like%20to%20connect!" target="_blank" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-center text-xs shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition">
-              <span>💬 WhatsApp Chat with Amit</span>
-            </a>
+            <div class="space-y-1 text-xs text-stone-300">
+              <p>📞 Phone: <a href="tel:9499268312" class="text-emerald-400 font-bold hover:underline">9499268312</a></p>
+              <p>🌐 GitHub: <a href="https://github.com/uniqabhishek/barber-salon-shop" target="_blank" class="text-amber-300 font-bold hover:underline">uniqabhishek</a></p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-1 text-xs">
+              <a href="tel:9499268312" class="py-2.5 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold rounded-xl text-center shadow flex items-center justify-center gap-1.5 transition">
+                <span>📞 Call Abhishek</span>
+              </a>
+              <a href="https://wa.me/919499268312?text=Hello%20Abhishek%2C%20I%20visited%20the%20Barber%20Salon%20Shop%20website%20and%20would%20like%20to%20connect!" target="_blank" class="py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl text-center shadow flex items-center justify-center gap-1.5 transition">
+                <span>💬 WhatsApp</span>
+              </a>
+            </div>
           </div>
+
+        </div>
 
         </div>
 
@@ -841,10 +871,11 @@
       </div>
 
       <div class="space-y-2">
-        <h4 class="font-serif-vintage font-bold text-amber-200 text-sm">Payment & Developer</h4>
+        <h4 class="font-serif-vintage font-bold text-amber-200 text-sm">Payment & Engineering</h4>
         <p class="text-[11px] leading-relaxed">
           Official UPI: <b class="text-white">amitkumargazipuria@oksbi</b><br>
-          Developer: <b class="text-white">Amit</b> (8930440260)<br>
+          Lead Dev: <b class="text-white">Amit</b> (<a href="tel:8930440260" class="text-amber-400">8930440260</a>)<br>
+          Co-Dev: <b class="text-white">Abhishek</b> (<a href="tel:9499268312" class="text-emerald-400">9499268312</a>)<br>
           Zero Overlap Booking 2.0
         </p>
       </div>
@@ -853,7 +884,7 @@
 
     <div class="max-w-7xl mx-auto px-4 pt-6 border-t border-[#2a1d16] flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-stone-500">
       <p>© 2026 Barber Salon Shop. All rights reserved.</p>
-      <p>Designed and Built by <b class="text-amber-400">Amit</b> (8930440260)</p>
+      <p>Developed by <b class="text-amber-400">Amit</b> (8930440260) & Co-Dev <b class="text-emerald-400">Abhishek</b> (9499268312)</p>
     </div>
   </footer>
   </div>

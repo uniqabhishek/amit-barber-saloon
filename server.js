@@ -85,7 +85,7 @@ server.listen(PORT, '0.0.0.0', () => {
   console.log(`====================================================`);
   console.log(`💈 BARBER SALON SHOP WEBSITE IS ONLINE! 💈`);
   console.log(`====================================================`);
-  console.log(`Developer: Amit (Mobile: 8930440260)`);
+  console.log(`Lead Dev: Amit (8930440260) | Co-Dev: Abhishek (9499268312)`);
   console.log(`Local Access:   http://localhost:${PORT}`);
   console.log(`Network Access: http://${localIp}:${PORT}`);
   console.log(`====================================================`);

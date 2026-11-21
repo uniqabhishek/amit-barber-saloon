@@ -14,7 +14,11 @@
     "keratin",
     "appointment-booking"
   ],
-  "author": "Amit (8930440260)",
+  "author": "Amit (8930440260) & Abhishek (9499268312)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uniqabhishek/barber-salon-shop.git"
+  },
   "license": "MIT",
   "dependencies": {
     "qrcode": "^1.5.4"

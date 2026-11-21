@@ -844,7 +844,7 @@ function renderReceiptModal(record) {
 
       <div class="mt-6 pt-4 border-t border-dashed border-stone-300 text-center text-xs text-stone-600">
         <p class="font-semibold text-stone-800">💈 Shop Location: Main Market Road (Near Clock Tower)</p>
-        <p class="text-[11px] text-stone-500 mt-1">Website Developed by <b>Amit</b> | Mobile: <b>8930440260</b></p>
+        <p class="text-[11px] text-stone-500 mt-1">Website Developed by <b>Amit</b> (8930440260) & Co-Dev <b>Abhishek</b> (9499268312)</p>
       </div>
 
     </div>
